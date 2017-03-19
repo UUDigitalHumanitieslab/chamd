@@ -11,9 +11,12 @@ import datetime
 import os
 import sys
 import re
+import csv
 import cleanCHILDESMD
 
 #functions
+
+charmap = {}
 
 def clean(line):
     result = line.strip()
@@ -214,6 +217,7 @@ def processline(lineno, line, md, uttid, headermodified, outfilename):
             entry=line[endspk+2:]
             cleanentry=cleanCHILDESMD.cleantext(entry)
             cleanCHILDESMD.checkline(line, cleanentry,outfilename,lineno, logfile)
+            updateCharMap(cleanentry, charmap)
 
             print_uttmd(metadata,outfile)
             print(cleanentry, file=outfile)
@@ -369,9 +373,19 @@ def treatutt(line, metadata):
    code = line[1:endspk]
    metadata["speaker"]=code
    metadata['origutt']= line[endspk+1:-1]
+
+def updateCharMap(str, charmap):
+    for i in range(len(str)):
+        curchar = str[i]
+        if curchar in charmap:
+            charmap[curchar] += 1
+        else:
+            charmap[curchar] = 1
            
 #constants
 
+tab = '\t'
+myquotechar = '"'
 chaexts = [".cha", '.cex']
 mdchar = "@"
 uttchar ="*"
@@ -423,6 +437,8 @@ parser.add_option("-f", "--file", dest="filename", default="",
                   help="process the given file (default: None)")
 parser.add_option("-l", "--logfile", dest="logfilename", 
                   help="logfile (default sys.stderr)")
+parser.add_option("-c", "--charmap", dest="charmapfilename", 
+                  help="charmap file name (default charmap.txt)")
 parser.add_option("-p", "--path",
                    dest="path", default=".",
                   help="path of the files to be processed")
@@ -440,6 +456,11 @@ if isNotEmpty(options.logfilename):
     logfile = open(options.logfilename, 'w', encoding='utf8')    
 else:
     logfile = sys.stderr
+
+if isNotEmpty(options.charmapfilename):
+    charmapfilename = options.charmapfilename
+else:
+    charmapfilename = "charmap.txt"    
 
 #read metadata from the cdc file
 
@@ -503,7 +524,15 @@ for fullname in files:
             #print(input('Continue?'), file=logfile)        
         #deal with the last line
         (uttid, headermodified) = processline(lineno, linetoprocess, metadata, uttid,headermodified,outfilename)
-                 
+
+hexformat = '{0:#06X}'
+#hexformat = "0x%0.4X"
+charmapfile = open(charmapfilename, 'w', encoding='utf8')
+charmapwriter = csv.writer(charmapfile,delimiter=tab, quotechar=myquotechar, quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+for el in charmap:
+    ordel = ord(el)
+    therow = [el, ordel , hexformat.format(ordel), charmap[el]]    
+    charmapwriter.writerow(therow)             
 #read metadata from the CHA file 
 
 #first read the character encoding

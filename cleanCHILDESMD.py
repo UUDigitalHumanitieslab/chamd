@@ -8,6 +8,13 @@ from optparse import OptionParser
 import os
 
 
+nesttest1 = 'ja , ik vind <dat zo leuk <dat het> [/]> [>] dat het blijft staan .'
+nesttest2 = '<zei [<] je> [/] zei je vader dat <vroeger > [>] ?'
+
+def scoped(str):
+    result = scopestr + str
+    return(result)
+
 space = " "
 eps = ''
 
@@ -15,31 +22,41 @@ skiplines = 1
 header = 1
 lctr = 0
 
+hexformat = '{0:#06X}'
+
+scopestr = r'<([^<>]*)>\s*'
+
 pauses3=re.compile(r'\(\.\.\.\)')
 pauses2=re.compile(r'\(\.\.\)')
-pauses1=re.compile(r'\(\.\)')
+pauses1=re.compile(r'\([0-9]*\.[0-9]*\)')
 leftbracket=re.compile(r'\(')
 rightbracket=re.compile(r'\)')
-atsignletters = re.compile(r'@[A-z:]+')
+atsignletters = re.compile(r'@[\w:]+')
 www= re.compile(r'www')
-phonfrag1 = re.compile(r'&=[A-z:]+')
-phonfrag2 = re.compile(r'&[A-z]+')
-zerostr = re.compile(r'0([A-z]+)')
+phonfrag1 = re.compile(r'&=[\w:]+')
+phonfrag2 = re.compile(r'&\w+')
+zerostr = re.compile(r'0(\w+)')
+barezero = re.compile(r'0')
 plusdotdot = re.compile(r'\+\.\.')
-ltre1 = re.compile(r'<([^>]+)>\s*\[<\]')
-ltre2 = re.compile(r'\[<\]')
-doubleslash1 = re.compile(r'<([^>]*)>\s*\[//\]')
-doubleslash2 = re.compile(r'\[//\]')
+ltstr = r'\[<\]'
+ltre1 = re.compile(scoped(ltstr))
+ltre2 = re.compile(ltstr)
+doubleslashstr = r'\[//\]'
+doubleslash1 = re.compile(scoped(doubleslashstr))
+doubleslash2 = re.compile(doubleslashstr)
 exclam2 = re.compile(r'\[!\]')
 exclam1 = re.compile(r'<([^>]*)>\s*\[!\]')
-slash2 = re.compile(r'<([^>]*)>\s*\[/\]')
-slash1 = re.compile(r'\[/\]')
-gtre1 = re.compile(r'<([^>]+)>\s*\[>\]')
-gtre2 = re.compile(r'\[>\]')
-qre1 = re.compile(r'<([^>]+)>\s*\[\?\]')
-qre2 = re.compile(r'\[\?\]')
-eqexclam = re.compile(r'<([^>]+)>\s*\[=![^\]]*\]')
-eqtext1 = re.compile(r'<([^>]+)>\s*\[=[^\]]*\]')
+slash = r'\[/\]' 
+slash2 = re.compile(scoped(slash))
+slash1 = re.compile(slash)
+gtstr = r'\[>\]'
+gtre1 = re.compile(scoped(gtstr))
+gtre2 = re.compile(gtstr)
+qstr = r'\[\?\]'
+qre1 = re.compile(scoped(qstr))
+qre2 = re.compile(qstr)
+eqexclam = re.compile(r'<([^>]*)>\s*\[=![^\]]*\]')
+eqtext1 = re.compile(r'<([^>]*)>\s*\[=[^\]]*\]')
 eqtext2 = re.compile(r'\[=[^\]]*\]')
 colonre = re.compile(r'[^ ]+\s+\[:([^\]]*)\]')
 doubleexclam = re.compile(r'\[!!\]')
@@ -47,24 +64,37 @@ plus3 = re.compile(r'\+\/(\/)?[\.\?]')
 plus2 = re.compile(r'\+[\.\^<,\+"]')
 plusquote = re.compile(r'\+(\+\"\.|!\?)')
 nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
-times = re.compile(r'\[x[^\]]*\]')
-scopedtimes = re.compile('<([^<>]*)>\s*\[x[^\]]*\]')
+#nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
+timesstr = r'\[x[^\]]*\]'
+times = re.compile(timesstr)
+scopedtimes = re.compile(scoped(timesstr))
 scopedinlinecom = re.compile(r'<([^<>]*)>\s*\[\% [^\]]*\]')
 inlinecom = re.compile(r'\[\% [^\]]*\]')
-reformul = re.compile(r'\[///\]')
+tripleslash = r'\[///\]'
+reformul = re.compile(tripleslash)
+scopedreformul = re.compile(scoped(tripleslash))
 endquote = re.compile(r'\+"/\.')
-errormark = re.compile(r'\[\*\]')
+errormarkstr = r'\[\*\]'
+errormark2 = re.compile(errormarkstr)
+errormark1 = re.compile(scoped(errormarkstr))
 dependenttier = re.compile(r'\[%(act|add|gpx|int|sit|spe):[^]]*\]')
 postcodes = re.compile(r'\[\+[^]]*\]')
 precodes = re.compile(r'\[-[^]]*\]')
 bch = re.compile(r'\[\+\s*bch\]')
 trn = re.compile(r'\[\+\s*trn\]')
+syllablepause = re.compile(r'(\w)\^')
+complexlocalevent = re.compile(r'\[\^[^\]]*\]')
+cliticlink = re.compile(r'~')
+chat_ca_syms = re.compile('[↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ∮§∾↻Ἡ„‡̣̣ʰ̄ʔ0]')
+timealign = re.compile(r'\u0015[0123456789_ ]+\u0015')
 
 def checkline(line, newline,outfilename,lineno, logfile):
     if checkpattern.search(newline) or pluspattern.search(newline):
         print(outfilename, lineno, 'suspect character', file=logfile)
         print('input=<{}>'.format(line[:-1]), file=logfile )
         print('output=<{}>'.format(newline[:-1]), file=logfile)
+        thecodes = str2codes(newline[:-1])
+        print('charcodes=<{}>'.format(thecodes), file=logfile)
 
 
 def cleantext(str):
@@ -107,12 +137,18 @@ def cleantext(str):
 
 #remove inline comments [% ...] p70, 78, 85
     result = inlinecom.sub(eps, result)
+
+#remove scoped reformulation symbols [///] p 73
+    result = scopedreformul.sub('\1', result)
     
 #remove reformulation symbols [///] p 73
-    result = reformul.sub(eps, result)
+    result = reformul.sub(space, result)
 
-#remover errormark [*]
-    result = errormark.sub(eps, result)
+#remover errormark1 [*] and preceding <>
+    result = errormark1.sub(r'\1 ', result)
+
+#remover errormark2 [*]
+    result = errormark2.sub(eps, result)
     
 #remove inline dependent tier [%xxx: ...]
 
@@ -138,8 +174,6 @@ def cleantext(str):
 #we keep this too
 #    result = re.sub(r'yyy', '', result)
 
-#remove www 
-    result = www.sub(eps, result)
 
 #remove phonological fragments p. 61
     result = phonfrag1.sub(eps, result)
@@ -148,14 +182,21 @@ def cleantext(str):
     
 #remove phonological fragments p.61
     result = phonfrag2.sub(eps, result)
+
+#remove www intentionally after phonological fragments
+    result = www.sub(eps, result)
+
     
 #replace 0[A-z] works ok now, raw replacement string!
     result = zerostr.sub(r'\1', result)
 
+#delete any remaining 0's
+    result = barezero.sub(space, result)
+
 #remove underscore
     result = re.sub(r'_', eps, result)
     
-#remove +..
+#remove +..  p. 63
     result = plusdotdot.sub(eps, result)
     
     
@@ -229,6 +270,21 @@ def cleantext(str):
 #remove silence marks (.) (..) (...) done above see pauses
 #    result = re.sub(r'\(\.(\.)?(\.)?\)', r' ', result)
 
+#remove syllablepauses p. 60
+    result = syllablepause.sub(r'\1', result)
+    
+#remove complexlocalevent p. 61
+    result = complexlocalevent.sub(space, result)
+    
+#replace clitic link ~by space
+    result = cliticlink.sub(space, result)   
+    
+#replace chat-ca codes by space p. 86,87
+    result = chat_ca_syms.sub(space, result)
+    
+#remove time alignment p. 67
+    result = timealign.sub(space, result)    
+
 #remove superfluous spaces etc. this also removes CR etc
 #    result = result.strip() 
     return(result)
@@ -243,9 +299,18 @@ def isNotEmpty(str):
        result=True
    return(result)    
 
+   
+def str2codes(str):
+    result = []
+    for i in range(len(str)):
+        curchar = str[i]
+        curcode = hexformat.format(ord(str[i]))
+        result.append((curchar,curcode))
+    return(result)
+        
 chaexts=['.txt']
 defaultoutext = '.txt'
-checkpattern = re.compile(r'[][\(\)&%@/=><_]')
+checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7]')
 # + should not occur except as compund marker black+board
 pluspattern = re.compile(r'\W\+|\+\W')
     
