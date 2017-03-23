@@ -8,8 +8,6 @@ from optparse import OptionParser
 import os
 
 
-nesttest1 = 'ja , ik vind <dat zo leuk <dat het> [/]> [>] dat het blijft staan .'
-nesttest2 = '<zei [<] je> [/] zei je vader dat <vroeger > [>] ?'
 
 def scoped(str):
     result = scopestr + str
@@ -22,9 +20,12 @@ skiplines = 1
 header = 1
 lctr = 0
 
-hexformat = '{0:#06X}'
+#hexformat = '{0:#06X}'
+hexformat = '\\u{0:04X}'
 
-scopestr = r'<([^<>]*)>\s*'
+#scopestr = r'<([^<>]*)>\s*'
+
+scopestr = r'<(([^<>]|\[<\]|\[>\])*)>\s*'
 
 pauses3=re.compile(r'\(\.\.\.\)')
 pauses2=re.compile(r'\(\.\.\)')
@@ -63,8 +64,16 @@ doubleexclam = re.compile(r'\[!!\]')
 plus3 = re.compile(r'\+\/(\/)?[\.\?]')
 plus2 = re.compile(r'\+[\.\^<,\+"]')
 plusquote = re.compile(r'\+(\+\"\.|!\?)')
-nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
+#nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
 #nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
+
+#content = r'(([^<>])|\[<\]|\[>\])*'
+#content = r'(([^<>])|(\[<\])|(\[>\]))*'
+content = r'((\[<\])|(\[>\])|([^<>]))*'
+nested = r'(<' + content + r'>' + content + r')+'
+neststr = r'(<' + content + nested + r'>)' 
+nesting = re.compile(neststr)
+
 timesstr = r'\[x[^\]]*\]'
 times = re.compile(timesstr)
 scopedtimes = re.compile(scoped(timesstr))
@@ -105,13 +114,23 @@ def cleantext(str):
     
 # page references are to MacWhinney chat manual version 21 april 2015    
 #nesting of <>
+#    match = nesting.search(result)
+#    if match is not None:
+#        b = match.start(1)+1
+#        e = match.end(1) -1
+#        midstr = result[b:e]
+#        newmidstr = cleantext(midstr)
+#        result = result[:b]+newmidstr+result[e:]
+
     match = nesting.search(result)
     if match is not None:
-       b = match.start(1)
-       e = match.end(1) +1
+       b = match.start(1) +1
+       e = match.end(1) -1
        midstr = result[b:e]
        newmidstr = cleantext(midstr)
-       result = result[:b]+newmidstr+result[e:]
+       leftstr = result[:b]
+       rightstr = result[e:]
+       result = leftstr+newmidstr+rightstr
 
 
 #remove scoped times <...> [x ...] keeping the ... betwen <> not officially defined
@@ -139,7 +158,7 @@ def cleantext(str):
     result = inlinecom.sub(eps, result)
 
 #remove scoped reformulation symbols [///] p 73
-    result = scopedreformul.sub('\1', result)
+    result = scopedreformul.sub(r'\1', result)
     
 #remove reformulation symbols [///] p 73
     result = reformul.sub(space, result)
@@ -310,7 +329,7 @@ def str2codes(str):
         
 chaexts=['.txt']
 defaultoutext = '.txt'
-checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7]')
+checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001]')
 # + should not occur except as compund marker black+board
 pluspattern = re.compile(r'\W\+|\+\W')
     
