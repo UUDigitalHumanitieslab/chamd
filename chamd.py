@@ -492,10 +492,11 @@ for fullname in files:
         (base,ext) = os.path.splitext(baseext)
         
         absinpath = os.path.abspath(options.path)
+        (initpath,lastfolder) = os.path.split(options.path)
         absoutpath = os.path.abspath(options.outpath)
         fullinpath = os.path.dirname(fullname)
         reloutpath = os.path.relpath(fullinpath, start=absinpath)
-        outfullpath = os.path.join(absoutpath, reloutpath)
+        outfullpath = os.path.join(absoutpath, lastfolder, reloutpath)
 
         #print('fullinpath=<{}>'.format(fullinpath), file=sys.stderr)
         #print('outfullpath=<{}>'.format(outfullpath), file=sys.stderr)
