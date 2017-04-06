@@ -27,6 +27,15 @@ hexformat = '\\u{0:04X}'
 
 scopestr = r'<(([^<>]|\[<\]|\[>\])*)>\s*'
 
+gtrepl = '\x00A9'  #copyright sign
+ltrepl = '\x00AE' # Registered sign
+gtreplre1 = re.compile(scoped(gtrepl))
+ltreplre1 = re.compile(scoped(ltrepl))
+gtreplre2 = re.compile(gtrepl)
+ltreplre2 = re.compile(ltrepl)
+
+                
+                
 pauses3=re.compile(r'\(\.\.\.\)')
 pauses2=re.compile(r'\(\.\.\)')
 pauses1=re.compile(r'\([0-9]*\.[0-9]*\)')
@@ -35,13 +44,15 @@ rightbracket=re.compile(r'\)')
 atsignletters = re.compile(r'@[\w:]+')
 www= re.compile(r'www')
 phonfrag1 = re.compile(r'&=[\w:]+')
-phonfrag2 = re.compile(r'&\w+')
+phonfrag2 = re.compile(r'&[\w:]+')
 zerostr = re.compile(r'0(\w+)')
 barezero = re.compile(r'0')
 plusdotdot = re.compile(r'\+\.\.')
 ltstr = r'\[<\]'
-ltre1 = re.compile(scoped(ltstr))
-ltre2 = re.compile(ltstr)
+ltre = re.compile(ltstr)
+
+#ltre1 = re.compile(scoped(ltstr))
+#ltre2 = re.compile(ltstr)
 doubleslashstr = r'\[//\]'
 doubleslash1 = re.compile(scoped(doubleslashstr))
 doubleslash2 = re.compile(doubleslashstr)
@@ -51,8 +62,9 @@ slash = r'\[/\]'
 slash2 = re.compile(scoped(slash))
 slash1 = re.compile(slash)
 gtstr = r'\[>\]'
-gtre1 = re.compile(scoped(gtstr))
-gtre2 = re.compile(gtstr)
+gtre = re.compile(gtstr)
+#gtre1 = re.compile(scoped(gtstr))
+#gtre2 = re.compile(gtstr)
 qstr = r'\[\?\]'
 qre1 = re.compile(scoped(qstr))
 qre2 = re.compile(qstr)
@@ -69,9 +81,29 @@ plusquote = re.compile(r'\+(\+\"\.|!\?)')
 
 #content = r'(([^<>])|\[<\]|\[>\])*'
 #content = r'(([^<>])|(\[<\])|(\[>\]))*'
-content = r'((\[<\])|(\[>\])|([^<>]))*'
-nested = r'(<' + content + r'>' + content + r')+'
-neststr = r'(<' + content + nested + r'>)' 
+#content = r'((\[<\])|(\[>\])|([^<>]))*'
+#nested = r'(<' + content + r'>' + content + r')+'
+#neststr = r'(<' + content + nested + r'>)' 
+#nesting = re.compile(neststr)
+
+def bracket(str):
+    result = '('+ str + ')'
+    return(result)
+
+
+def reor(strlist):
+    result1 = '|'.join(strlist)
+    result = bracket(result1)
+    return(result)
+
+def restar(str):
+    result = bracket(str)+ '*'    
+    return(result)
+    
+embed = r'(<[^<>]*>)'
+other = r'[^<>]'
+embedorother = reor([embed,other])
+neststr = r'(<' + restar(other) + embed + restar(embedorother)  + r'>)'
 nesting = re.compile(neststr)
 
 timesstr = r'\[x[^\]]*\]'
@@ -112,16 +144,15 @@ def cleantext(str):
     #if times.search(result):
         #print('[x ...] found, line={}'.format(result), file=logfile)
     
-# page references are to MacWhinney chat manual version 21 april 2015    
-#nesting of <>
-#    match = nesting.search(result)
-#    if match is not None:
-#        b = match.start(1)+1
-#        e = match.end(1) -1
-#        midstr = result[b:e]
-#        newmidstr = cleantext(midstr)
-#        result = result[:b]+newmidstr+result[e:]
+# page references are to MacWhinney chat manual version 21 april 2015  
 
+#replace [<] and [>]
+
+
+    result = ltre.sub(ltrepl, result)
+    result = gtre.sub(gtrepl, result) 
+  
+  
     match = nesting.search(result)
     if match is not None:
        b = match.start(1) +1
@@ -220,16 +251,16 @@ def cleantext(str):
     
     
 #remove [<] and preceding <> on purpose before [//]
-    result = ltre1.sub( r'\1 ', result)
+    result = ltreplre1.sub( r'\1 ', result)
 
 #remove [<]   on purpose before [//]
-    result = ltre2.sub( space, result)
+    result = ltreplre2.sub( space, result)
 
 #remove [>] and preceding <> 
-    result = gtre1.sub(r'\1 ', result)
+    result = gtreplre1.sub(r'\1 ', result)
     
 #remove [>]   
-    result = gtre2.sub(space, result)
+    result = gtreplre2.sub(space, result)
     
     
 #remove [//] keep preceding part between <>, drop <> 
@@ -262,7 +293,7 @@ def cleantext(str):
 #remove [=! <text>] and preceding <>
     result = eqexclam.sub(r'\1 ', result)
 
-#remove [= <text> ] and preceding <> 
+#remove [= <text> ] and preceding <>  p 68/69 explanation
     result = eqtext1.sub(r'\1 ', result)
 
 #remove [= <text>] 
