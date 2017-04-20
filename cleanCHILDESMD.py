@@ -358,83 +358,83 @@ def str2codes(str):
         result.append((curchar,curcode))
     return(result)
         
-chaexts=['.txt']
-defaultoutext = '.txt'
 checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001]')
 # + should not occur except as compund marker black+board
 pluspattern = re.compile(r'\W\+|\+\W')
-    
-parser = OptionParser()
-parser.add_option("-f", "--file", dest="filename", default="",
-                  help="process the given file (default: None)")
-parser.add_option("-l", "--logfile", dest="logfilename", 
-                  help="logfile (default sys.stderr)")
-parser.add_option("-p", "--path",
-                   dest="path", default=".",
-                  help="path of the files to be processed")
-parser.add_option("--exts", dest="exts",  default = chaexts, help="Extensions of the files to be processed")
-parser.add_option("--outext", dest="outext",  default = defaultoutext, help="Extension of the processed files")
-parser.add_option("--verbose", dest="verbose", action="store_true", default=False,  help="show files being processed (default=False)")
-parser.add_option( "--outpath",
-                   dest="outpath", default=".",
-                  help="(relative path where the processed files will be put")
 
-
-(options, args) = parser.parse_args()
-
-
-if isNotEmpty(options.logfilename):
-    logfile = open(options.logfilename, 'w', encoding='utf8')    
-else:
-    logfile = sys.stderr
-
+#below commented out because we use this file as a module, not as a standalone program    
+#chaexts=['.txt']
+#defaultoutext = '.txt'
+#parser = OptionParser()
+#parser.add_option("-f", "--file", dest="filename", default="",
+#                  help="process the given file (default: None)")
+#parser.add_option("-l", "--logfile", dest="logfilename", 
+#                  help="logfile (default sys.stderr)")
+#parser.add_option("-p", "--path",
+#                   dest="path", default=".",
+#                  help="path of the files to be processed")
+#parser.add_option("--exts", dest="exts",  default = chaexts, help="Extensions of the files to be processed")
+#parser.add_option("--outext", dest="outext",  default = defaultoutext, help="Extension of the processed files")
+#parser.add_option("--verbose", dest="verbose", action="store_true", default=False,  help="show files being processed (default=False)")
+#parser.add_option( "--outpath",
+#                   dest="outpath", default=".",
+#                  help="(relative path where the processed files will be put")
+#
+#
+#(options, args) = parser.parse_args()
+#
+#
+#if isNotEmpty(options.logfilename):
+#    logfile = open(options.logfilename, 'w', encoding='utf8')    
+#else:
+#    logfile = sys.stderr
+#
 #read metadata from the cdc file
-
+#
 #determine the CHA files to be processed
-
-if isNotEmpty(options.filename) :
-    files = [options.filename]
-elif isNotEmpty(options.path):
-    files=[]
-    for root, dirs, thefiles in os.walk(options.path):
-        for file in thefiles: 
-            fullname=os.path.join(root,file)
-            (base, ext) = os.path.splitext(file)
-            if ext in options.exts: files.append(fullname)
-
-
-for fullname in files:
-    with open(fullname, 'r', encoding='utf8') as thefile:
-        if options.verbose: print("processing {}...".format(fullname), file=logfile)
-        baseext = os.path.basename(fullname)
-        (base,ext) = os.path.splitext(baseext)
-        inpath = os.path.dirname(fullname)
-        outfullpath= os.path.join(os.getcwd(), options.outpath, inpath)
-        if not os.path.isdir(outfullpath):
-            os.makedirs(outfullpath)
-        outfilename = base + options.outext
-        outfullname = os.path.join(outfullpath,outfilename)
-        outfile = open(outfullname, 'w', encoding='utf8')  
-
-        lineno = 0
-        for line in thefile:
-            lineno += 1
-            strippedline = line.strip()
-            if strippedline[0:6].lower()=='##meta':
-                newline= line
-            else:
-                newline = cleantext(line)
-                checkline(newline,outfilename,lineno, logfile)
-                if checkpattern.search(newline) or pluspattern.search(newline):
-                    print(outfilename, lineno, 'suspect character', file=logfile)
-                    print('input=<{}>'.format(line[:-1]), file=logfile )
-                    print('output=<{}>'.format(newline[:-1]), file=logfile)
-
-            print(newline, file=outfile, end='') 
-
+#
+#if isNotEmpty(options.filename) :
+#    files = [options.filename]
+#elif isNotEmpty(options.path):
+#    files=[]
+#    for root, dirs, thefiles in os.walk(options.path):
+#        for file in thefiles: 
+#            fullname=os.path.join(root,file)
+#            (base, ext) = os.path.splitext(file)
+#            if ext in options.exts: files.append(fullname)
+#
 #main loop
-
-
-
+#
+#for fullname in files:
+#    with open(fullname, 'r', encoding='utf8') as thefile:
+#        if options.verbose: print("processing {}...".format(fullname), file=logfile)
+#        baseext = os.path.basename(fullname)
+#        (base,ext) = os.path.splitext(baseext)
+#        inpath = os.path.dirname(fullname)
+#        outfullpath= os.path.join(os.getcwd(), options.outpath, inpath)
+#        if not os.path.isdir(outfullpath):
+#            os.makedirs(outfullpath)
+#        outfilename = base + options.outext
+#        outfullname = os.path.join(outfullpath,outfilename)
+#        outfile = open(outfullname, 'w', encoding='utf8')  
+#
+#        lineno = 0
+#        for line in thefile:
+#            lineno += 1
+#            strippedline = line.strip()
+#            if strippedline[0:6].lower()=='##meta':
+#                newline= line
+#            else:
+#                newline = cleantext(line)
+#                checkline(newline,outfilename,lineno, logfile)
+#                if checkpattern.search(newline) or pluspattern.search(newline):
+#                    print(outfilename, lineno, 'suspect character', file=logfile)
+#                    print('input=<{}>'.format(line[:-1]), file=logfile )
+#                    print('output=<{}>'.format(newline[:-1]), file=logfile)
+#
+#            print(newline, file=outfile, end='') 
+#
 #end main loop
+
+
 

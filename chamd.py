@@ -200,7 +200,7 @@ def processline(lineno, line, md, uttid, headermodified, outfilename):
         #to implement
         treat_mdline(lineno, line, metadata)
         headermodified = True
-        print(metadata, file=mdlog)
+#        print(metadata, file=mdlog)
     else:
         if headermodified: 
             print_headermd(metadata, outfile)
@@ -216,6 +216,8 @@ def processline(lineno, line, md, uttid, headermodified, outfilename):
             if endspk < 0 : print('error in line: {}'.format(line), file=logfile)
             entry=line[endspk+2:]
             cleanentry=cleanCHILDESMD.cleantext(entry)
+            if isNotEmpty(options.cleanfilename):
+                write2cleanfile(entry, cleanentry, cleanfile)
             cleanCHILDESMD.checkline(line, cleanentry,outfilename,lineno, logfile)
             updateCharMap(cleanentry, charmap)
 
@@ -381,7 +383,13 @@ def updateCharMap(str, charmap):
             charmap[curchar] += 1
         else:
             charmap[curchar] = 1
-           
+   
+
+def write2cleanfile(entry, cleanentry, cleanfile):
+    if entry != cleanentry:
+        print(entry, file=cleanfile, end ='' )
+        print(cleanentry, file=cleanfile, end='')
+        
 #constants
 
 tab = '\t'
@@ -425,7 +433,7 @@ printinheaders = [headeratt for headeratt in allheaders if headeratt not in dono
 
 program_name = sys.argv[0]
 baseversion = "0"
-subversion = "01"
+subversion = "02"
 version = baseversion +  "." + subversion
 exactlynow = datetime.datetime.now()
 now = exactlynow.replace(microsecond=0).isoformat()
@@ -442,6 +450,9 @@ parser.add_option("-c", "--charmap", dest="charmapfilename",
 parser.add_option("-p", "--path",
                    dest="path", default=".",
                   help="path of the files to be processed")
+parser.add_option( "--cleanfilename",
+                   dest="cleanfilename", default="",
+                  help="file to write processed utterances to")
 parser.add_option("--exts", dest="exts",  default = chaexts, help="Extensions of the files to be processed")
 parser.add_option("--outext", dest="outext",  default = defaultoutext, help="Extension of the processed files")
 parser.add_option("--verbose", dest="verbose", action="store_true", default=False,  help="show files being processed (default=False)")
@@ -476,6 +487,8 @@ elif isNotEmpty(options.path):
             (base, ext) = os.path.splitext(file)
             if ext in options.exts: files.append(fullname)
 
+if isNotEmpty(options.cleanfilename):
+    cleanfile = open(options.cleanfilename,'w',encoding='utf8')
 
 for fullname in files:
 #    thefile= open(fullname, 'r', encoding='utf8')
@@ -486,7 +499,7 @@ for fullname in files:
 #        print("No character encoding encountered in {}".format(fullname), file=logfile)
     with open(fullname, 'r', encoding='utf8') as thefile:
         if options.verbose: print("processing {}...".format(fullname), file=logfile)
-        mdlog = open('mdlog.txt', 'w', encoding='utf8')
+#        mdlog = open('mdlog.txt', 'w', encoding='utf8')
         metadata={}
         baseext = os.path.basename(fullname)
         (base,ext) = os.path.splitext(baseext)
