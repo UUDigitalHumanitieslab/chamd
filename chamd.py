@@ -175,8 +175,9 @@ def print_uttmd(metadata, outfile):
     curcode= metadata['speaker']
     if curcode in metadata['participants']:
         for el in metadata['participants'][curcode]:
-            theline=metatxt(el,metadata['participants'][curcode])
-            print(theline, file=outfile)
+            if el != 'role':
+                theline=metatxt(el,metadata['participants'][curcode])
+                print(theline, file=outfile)
     if 'id' in metadata:        
         if curcode in metadata['id']:
             for el in metadata['id'][curcode]:
@@ -348,6 +349,9 @@ def treatid(entry,metadata):
     group = setatt(entrylist,5)
     SES = setatt(entrylist,6)
     role = setatt(entrylist,7)
+    if role == '':
+        if code in metadata["participants"] and "role" in metadata["participants"][code]:
+            role =metadata["participants"][code]["role"]
     education = setatt(entrylist,8)
     custom = setatt(entrylist,9)
     if code == "":
@@ -413,7 +417,7 @@ simpleheadernames = ['pid',  "transcriber",  "coder",  "date",  "location",
                       "situation", 'number', 'interaction type', "activities",
                       'comment', 'bck', 'warning', 'transcription',
                      'time start', 'time duration', 'tape location', 'room layout',
-                     'recording quality', 'number', 'media'] 
+                     'recording quality', 'number', 'media', 'session']
 simpleintheadernames = ['g', 'page']
 simplecounterheaders = ['new episode']
 skipheadernames =['exceptions']
@@ -433,7 +437,7 @@ printinheaders = [headeratt for headeratt in allheaders if headeratt not in dono
 
 program_name = sys.argv[0]
 baseversion = "0"
-subversion = "02"
+subversion = "03"
 version = baseversion +  "." + subversion
 exactlynow = datetime.datetime.now()
 now = exactlynow.replace(microsecond=0).isoformat()
@@ -503,6 +507,7 @@ for fullname in files:
         metadata={}
         baseext = os.path.basename(fullname)
         (base,ext) = os.path.splitext(baseext)
+        metadata['session'] = base
         
         absinpath = os.path.abspath(options.path)
         (initpath,lastfolder) = os.path.split(options.path)
