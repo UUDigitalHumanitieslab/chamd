@@ -43,6 +43,8 @@ leftbracket=re.compile(r'\(')
 rightbracket=re.compile(r'\)')
 atsignletters = re.compile(r'@[\w:]+')
 www= re.compile(r'www')
+filledpause = re.compile(r'&-[\w:]+')
+phonfrag0 = re.compile(r'&\+[\w:]+')
 phonfrag1 = re.compile(r'&=[\w:]+')
 phonfrag2 = re.compile(r'&[\w:]+')
 zerostr = re.compile(r'0(\w+)')
@@ -76,6 +78,11 @@ doubleexclam = re.compile(r'\[!!\]')
 plus3 = re.compile(r'\+\/(\/)?[\.\?]')
 plus2 = re.compile(r'\+[\.\^<,\+"]')
 plusquote = re.compile(r'\+(\+\"\.|!\?)')
+
+squarebracketseen = re.compile(r'\[een\]')
+squarebracketstwee = re.compile(r'\[twee\]')
+
+
 #nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
 #nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
 
@@ -128,6 +135,9 @@ complexlocalevent = re.compile(r'\[\^[^\]]*\]')
 cliticlink = re.compile(r'~')
 chat_ca_syms = re.compile('[↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ∮§∾↻Ἡ„‡̣̣ʰ̄ʔ0]')
 timealign = re.compile(r'\u0015[0123456789_ ]+\u0015')
+segmentrep = re.compile('\u21AB[^\u21AB]*\u21AB')
+blocking = re.compile('\u2260')
+internalpause = re.compile('\^')
 
 def checkline(line, newline,outfilename,lineno, logfile):
     if checkpattern.search(newline) or pluspattern.search(newline):
@@ -225,12 +235,20 @@ def cleantext(str):
 #    result = re.sub(r'yyy', '', result)
 
 
-#remove phonological fragments p. 61
+#remove filled pauses ( &- p. 89)
+    result = filledpause.sub(space, result)
+
+# remove phonological fragments &+
+#    https://talkbank.org/manuals/Clin-CLAN.pdf noemt &+ voor phonological fragments(p. 18)
+    result = phonfrag0.sub(space, result)
+
+
+#remove phonological fragments p. 61 &=
     result = phonfrag1.sub(eps, result)
 
 
     
-#remove phonological fragments p.61
+#remove phonological fragments p.61 &
     result = phonfrag2.sub(eps, result)
 
 #remove www intentionally after phonological fragments
@@ -333,7 +351,22 @@ def cleantext(str):
     result = chat_ca_syms.sub(space, result)
     
 #remove time alignment p. 67
-    result = timealign.sub(space, result)    
+    result = timealign.sub(space, result)
+
+# remove segment repetitions p89 Unicode 21AB UTF8 e2 86 ab
+    result = segmentrep.sub(eps,result)
+
+# remove blocking Unicode 2260 not-equal sign    p89
+    result = blocking.sub(eps, result)
+
+# remove  internal pausing ^  p. 89
+    result = internalpause.sub(eps,result)
+
+#next is an ad-hoc extension for Lotti
+#replace [een], [twee] by space
+    result = squarebracketseen.sub(space,result)
+    result = squarebracketstwee.sub(space,result)
+
 
 #remove superfluous spaces etc. this also removes CR etc
 #    result = result.strip() 
@@ -358,7 +391,7 @@ def str2codes(str):
         result.append((curchar,curcode))
     return(result)
         
-checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001]')
+checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001\u2260\u21AB]')
 # + should not occur except as compund marker black+board
 pluspattern = re.compile(r'\W\+|\+\W')
 
