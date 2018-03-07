@@ -12,7 +12,7 @@ import os
 import sys
 import re
 import csv
-import cleanCHILDESMD
+from chamd import cleanCHILDESMD
 
 #functions
 
@@ -435,8 +435,13 @@ donotprintinheaders = ['id','participants','languages', 'colorwords','options','
 allheaders = simpleheadernames + simpleintheadernames + simplecounterheaders + createdmdnames + participantspecificheaders 
 printinheaders = [headeratt for headeratt in allheaders if headeratt not in donotprintinheaders]
 
-if __name__ == "__main__":
-    program_name = sys.argv[0]
+def main(args=None):
+    """
+    Main entry point.
+    """
+    if args is None:
+        args = sys.argv[1:]
+
     baseversion = "0"
     subversion = "03"
     version = baseversion +  "." + subversion
@@ -466,7 +471,7 @@ if __name__ == "__main__":
                     help="path where the processed files will be put")
 
 
-    (options, args) = parser.parse_args()
+    (options, args) = parser.parse_args(args)
 
     if isNotEmpty(options.logfilename):
         logfile = open(options.logfilename, 'w', encoding='utf8')    
@@ -562,3 +567,5 @@ if __name__ == "__main__":
     #and convert it to LASSY XML meta elements and integrate with a Alpino-parsed  XML-file
 
     #and convert it to FoliA
+if __name__ == "__main__":
+    main()
