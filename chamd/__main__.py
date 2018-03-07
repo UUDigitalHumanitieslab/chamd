@@ -113,24 +113,29 @@ def isNotEmpty(str):
        result=True
    return(result)    
 
-def metadate(el, metadata):
-    d=metadata[el]
-    normalizeddate = d.isoformat()
-    uel= despace(el)
-    result = space.join([metakw, "date",uel, "=", normalizeddate])
-    return(result)
-    
-def metaint(el,metadata):
-    uel = despace(el)
-    result=space.join([metakw, "int", uel, "=", str(metadata[el])])
-    return(result)
-    
-def metatxt(el, metadata):   
-    uel = despace(el)
-    result = space.join([metakw, "text", uel, "=", metadata[el]])
-    return(result)
-    
-   
+class MetaValue:
+    def __init__(self, el, value_type, text):
+        self.value_type = value_type
+        self.text = text
+        self.uel = despace(el)
+
+    def __str__(self):
+        return space.join([metakw, self.value_type, self.uel, "=", self.text])
+
+class MetaDate(MetaValue):
+    def __init__(self, el, metadata):
+        d = metadata[el]
+        normalizeddate = d.isoformat()
+        super().__init__(el, "date", str(normalizedate))
+
+class MetaInt(MetaValue):
+    def __init__(self, el, metadata):
+        super().__init__(el, "int", str(metadata[el]))
+
+class MetaTxt(MetaValue):
+    def __init__(self, el, metadata):
+        super().__init__(el, "text", metadata[el])    
+
 def normalizedate(str):
     try:
         dt=datetime.datetime.strptime(str, dateformat1)
@@ -152,22 +157,22 @@ def print_headermd(metadata, outfile):
         elif el in allheaders:
             curval = metadata[el]
             if type(curval) is str:
-                line = metatxt(el, metadata)
+                line = MetaTxt(el, metadata)
                 print(line, file=outfile)
             elif type(curval) is datetime.date:
-                line = metadate(el, metadata)
+                line = MetaDate(el, metadata)
                 print(line, file=outfile)
             elif type(curval) is int:
-                line = metaint(el, metadata)
+                line = MetaInt(el, metadata)
                 print(line, file=outfile)
             if el not in  printinheaders:
                 print("unknown metadata element encountered: {}".format(el), file=logfile)
 
 def print_uttmd(metadata, outfile):
-    uttidline = metaint('uttid', metadata)
-    spkrline = metatxt("speaker", metadata)
-    #parsefileline = metatxt('parsefile', metadata)
-    origuttline = metatxt("origutt", metadata)
+    uttidline = MetaInt('uttid', metadata)
+    spkrline = MetaTxt("speaker", metadata)
+    #parsefileline = MetaTxt('parsefile', metadata)
+    origuttline = MetaTxt("origutt", metadata)
     print(uttidline, file=outfile)
     print(spkrline, file=outfile)
     #print(parsefileline, file=outfile)
@@ -176,7 +181,7 @@ def print_uttmd(metadata, outfile):
     if curcode in metadata['participants']:
         for el in metadata['participants'][curcode]:
             if el != 'role':
-                theline=metatxt(el,metadata['participants'][curcode])
+                theline = MetaTxt(el, metadata['participants'][curcode])
                 print(theline, file=outfile)
     if 'id' in metadata:        
         if curcode in metadata['id']:
@@ -184,20 +189,20 @@ def print_uttmd(metadata, outfile):
                 curval = metadata['id'][curcode][el]
 
                 if type(curval) is str:
-                    theline=metatxt(el,metadata['id'][curcode])
+                    theline = MetaTxt(el, metadata['id'][curcode])
                     print(theline, file=outfile)
                 elif type(curval) is int:
-                    theline=metaint(el,metadata['id'][curcode])
+                    theline = MetaInt(el, metadata['id'][curcode])
                     print(theline, file=outfile)
                 elif type(curval) is datetime.date:
-                    theline = metadate(el,metadata['id'][curcode])
+                    theline = MetaDate(el, metadata['id'][curcode])
                     print(theline, file=outfile)
                 else:
                     print('print_uttmd: unknown type for {}={}'.format(el,curval), file=logfile)
 
-def processline(lineno, line, md, uttid, headermodified, outfilename):
+def processline(base, cleanfilename, lineno, line, md, uttid, headermodified, outfilename):
     startchar= line[0:1] 
-    if startchar==mdchar:
+    if startchar == mdchar:
         #to implement
         treat_mdline(lineno, line, metadata)
         headermodified = True
@@ -217,7 +222,7 @@ def processline(lineno, line, md, uttid, headermodified, outfilename):
             if endspk < 0 : print('error in line: {}'.format(line), file=logfile)
             entry=line[endspk+2:]
             cleanentry=cleanCHILDESMD.cleantext(entry)
-            if isNotEmpty(options.cleanfilename):
+            if isNotEmpty(cleanfilename):
                 write2cleanfile(entry, cleanentry, cleanfile)
             cleanCHILDESMD.checkline(line, cleanentry,outfilename,lineno, logfile)
             updateCharMap(cleanentry, charmap)
@@ -435,7 +440,14 @@ donotprintinheaders = ['id','participants','languages', 'colorwords','options','
 allheaders = simpleheadernames + simpleintheadernames + simplecounterheaders + createdmdnames + participantspecificheaders 
 printinheaders = [headeratt for headeratt in allheaders if headeratt not in donotprintinheaders]
 
+# global variables
+metadata = {}
+outfile = None
+logfile = None
+
 def main(args=None):
+    global metadata, outfile, logfile
+
     """
     Main entry point.
     """
@@ -510,7 +522,6 @@ def main(args=None):
         with open(fullname, 'r', encoding='utf8') as thefile:
             if options.verbose: print("processing {}...".format(fullname), file=logfile)
     #        mdlog = open('mdlog.txt', 'w', encoding='utf8')
-            metadata={}
             baseext = os.path.basename(fullname)
             (base,ext) = os.path.splitext(baseext)
             metadata['session'] = base
@@ -543,12 +554,13 @@ def main(args=None):
                 if startchar in ['\t']:
                     linetoprocess = combine(linetoprocess, line)
                 elif startchar in [mdchar,uttchar,annochar,space]:
-                    if linetoprocess != "": (uttid, headermodified) = processline(lineno, linetoprocess, metadata, uttid,headermodified,outfilename)
+                    if linetoprocess != "":
+                        (uttid, headermodified) = processline(base, options.cleanfilename, lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
                     linetoprocess = line
                 #print(metadata, file=logfile)
                 #print(input('Continue?'), file=logfile)        
             #deal with the last line
-            (uttid, headermodified) = processline(lineno, linetoprocess, metadata, uttid,headermodified,outfilename)
+            (uttid, headermodified) = processline(base, options.cleanfilename, lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
 
     hexformat = '{0:#06X}'
     #hexformat = "0x%0.4X"
