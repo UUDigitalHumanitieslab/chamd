@@ -1,4 +1,4 @@
-Tool for reading CHAT files to be converted to Alpino.
+Conversion and cleaning of CHILDES CHA files into PaQu Plaintext Metadata Format (to convert to Alpino).
 
 ```bash
 pip install chamd
