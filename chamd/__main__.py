@@ -201,6 +201,7 @@ def print_uttmd(metadata, outfile):
                     print('print_uttmd: unknown type for {}={}'.format(el,curval), file=logfile)
 
 def processline(base, cleanfilename, lineno, line, md, uttid, headermodified, outfilename):
+    global cleanfile
     startchar= line[0:1] 
     if startchar == mdchar:
         #to implement
@@ -248,70 +249,71 @@ def setatt(entrylist, i):
 
                     
 def treat_mdline(lineno, headerline, metadata):
-   headernameend= headerline.find(headerlineendsym) 
-   if headernameend<0:
-       cleanheaderline = clean(headerline).lower()
-       if cleanheaderline == "@utf8":
-           metadata["charencoding"]="UTF8"
-       elif cleanheaderline == "@begin":
-          pass
-       elif cleanheaderline == "@end":
-           pass
-       elif cleanheaderline == '@blank':
-          pass
-       else:
-           print("Warning: unknown header {} encountered in line {}".format(headerline, lineno), file=logfile)
-          
-   else:
-       headername= headerline[1:headernameend]
-       entry = headerline[headernameend+1:]
-       cleanentry= clean(entry)
-       entrylist = cleanentry.split(',')
-       cleanheadername = clean(headername)
-       cleanheadernamebase = clean(cleanheadername[:-3])
-       headerparameter = cleanheadername[-3:]
-       cleanheadername = cleanheadername.lower()
-       cleanheadernamebase = clean(cleanheadername[:-3])
-       if cleanheadername == 'font':
-           pass
-       elif cleanheadername == 'languages':
-           metadata['languages']= entrylist
-       elif cleanheadername == 'colorwords':
-           metadata['colorwords'] = entrylist
-       elif cleanheadername == 'options':
-           pass
-       elif cleanheadername == 'participants':
-           treatparticipants(entrylist,metadata)
-       elif cleanheadername == 'id':
-           treatid(entry, metadata)
-       elif cleanheadername == 'date':
-           metadata[cleanheadername]=normalizedate(cleanentry)
-       elif cleanheadername in simpleheadernames:
-           metadata[cleanheadername]= cleanentry
-       elif cleanheadername in skipheadernames:
-           pass
-       elif cleanheadername in simpleintheadernames:
-           metadata[cleanheadername] = int(cleanentry)    
-       elif cleanheadername in simplecounterheaders:
-           counter[cleanheadername] += 1
-           metadata[cleanheadername] = counter[cleanheadername] 
-       elif cleanheadernamebase in participantspecificheaders:
-           if 'id' not  in metadata: metadata['id']={}
-           if headerparameter not in metadata['id']: metadata['id'][headerparameter]={}
-           if cleanheadernamebase == 'birth of':
-               thedate=normalizedate(cleanentry)
-               metadata['id'][headerparameter][cleanheadernamebase]=thedate
-           elif cleanheadernamebase == 'age of':
-               #print('<{}>'.format(cleanentry), file=logfile)
-               #print(input('Continue?'), file=logfile) 
-               metadata['id'][headerparameter]['age']=cleanentry
-               months=getmonths(cleanentry)
-               if months != 0: metadata['id'][headerparameter]['months']=months
-           else:
-               metadata['id'][headerparameter][cleanheadernamebase]=cleanentry
+    global counter
+    headernameend= headerline.find(headerlineendsym) 
+    if headernameend<0:
+        cleanheaderline = clean(headerline).lower()
+        if cleanheaderline == "@utf8":
+            metadata["charencoding"]="UTF8"
+        elif cleanheaderline == "@begin":
+            pass
+        elif cleanheaderline == "@end":
+            pass
+        elif cleanheaderline == '@blank':
+            pass
+        else:
+            print("Warning: unknown header {} encountered in line {}".format(headerline, lineno), file=logfile)
+            
+    else:
+        headername= headerline[1:headernameend]
+        entry = headerline[headernameend+1:]
+        cleanentry= clean(entry)
+        entrylist = cleanentry.split(',')
+        cleanheadername = clean(headername)
+        cleanheadernamebase = clean(cleanheadername[:-3])
+        headerparameter = cleanheadername[-3:]
+        cleanheadername = cleanheadername.lower()
+        cleanheadernamebase = clean(cleanheadername[:-3])
+        if cleanheadername == 'font':
+            pass
+        elif cleanheadername == 'languages':
+            metadata['languages']= entrylist
+        elif cleanheadername == 'colorwords':
+            metadata['colorwords'] = entrylist
+        elif cleanheadername == 'options':
+            pass
+        elif cleanheadername == 'participants':
+            treatparticipants(entrylist,metadata)
+        elif cleanheadername == 'id':
+            treatid(entry, metadata)
+        elif cleanheadername == 'date':
+            metadata[cleanheadername]=normalizedate(cleanentry)
+        elif cleanheadername in simpleheadernames:
+            metadata[cleanheadername]= cleanentry
+        elif cleanheadername in skipheadernames:
+            pass
+        elif cleanheadername in simpleintheadernames:
+            metadata[cleanheadername] = int(cleanentry)    
+        elif cleanheadername in simplecounterheaders:
+            counter[cleanheadername] += 1
+            metadata[cleanheadername] = counter[cleanheadername] 
+        elif cleanheadernamebase in participantspecificheaders:
+            if 'id' not  in metadata: metadata['id']={}
+            if headerparameter not in metadata['id']: metadata['id'][headerparameter]={}
+            if cleanheadernamebase == 'birth of':
+                thedate=normalizedate(cleanentry)
+                metadata['id'][headerparameter][cleanheadernamebase]=thedate
+            elif cleanheadernamebase == 'age of':
+                #print('<{}>'.format(cleanentry), file=logfile)
+                #print(input('Continue?'), file=logfile) 
+                metadata['id'][headerparameter]['age']=cleanentry
+                months=getmonths(cleanentry)
+                if months != 0: metadata['id'][headerparameter]['months']=months
+            else:
+                metadata['id'][headerparameter][cleanheadernamebase]=cleanentry
 
-       else:
-           print('Warning: unknown metadata element encountered: {}'.format(cleanheadername), file=logfile)
+        else:
+            print('Warning: unknown metadata element encountered: {}'.format(cleanheadername), file=logfile)
 
 
            
@@ -444,9 +446,11 @@ printinheaders = [headeratt for headeratt in allheaders if headeratt not in dono
 metadata = {}
 outfile = None
 logfile = None
+counter = None
+cleanfile = None
 
 def main(args=None):
-    global metadata, outfile, logfile
+    global metadata, outfile, logfile, counter, cleanfile
 
     """
     Main entry point.
