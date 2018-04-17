@@ -5,6 +5,12 @@ pip install chamd
 chamd --help
 ```
 
+Running from project:
+
+```bash
+python -m chamd --help
+```
+
 # Upload to PyPi
 
 ```bash
