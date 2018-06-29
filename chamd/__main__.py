@@ -167,7 +167,7 @@ def normalizedate(str):
 
 
 def print_headermd(metadata, outfile):
-    for el in metadata:
+    for el in sorted(metadata):
         if el in donotprintinheaders:
             pass
         elif el in allheaders:
@@ -203,7 +203,7 @@ def print_uttmd(metadata, outfile):
                 print(theline, file=outfile)
     if 'id' in metadata:
         if curcode in metadata['id']:
-            for el in metadata['id'][curcode]:
+            for el in sorted(metadata['id'][curcode]):
                 curval = metadata['id'][curcode][el]
 
                 if type(curval) is str:

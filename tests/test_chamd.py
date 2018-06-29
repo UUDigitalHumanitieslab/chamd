@@ -36,10 +36,11 @@ class TestChamd(unittest.TestCase):
                   '--outpath', tmpdir,
                   '-c', os.path.join(tmpdir, 'charmap.txt')])
             actual_files = glob.glob(
-                os.path.join(tmpdir, '**', '*.txt'), recursive=True)
+                os.path.join(tmpdir, '**', '*.txt'))
 
             for expected_file in expected_files:
                 basename = os.path.basename(expected_file)
+                found = False
                 for actual_file in actual_files:
                     if os.path.basename(actual_file) == basename:
                         with open(actual_file) as handle:
@@ -53,3 +54,8 @@ class TestChamd(unittest.TestCase):
                             basename + ' (actual)'))
                         if len(diff_lines) > 0:
                             self.fail(''.join(diff_lines))
+                        
+                        found = True
+                        break
+                if not found:
+                    self.fail('No output for ' + expected_file)
