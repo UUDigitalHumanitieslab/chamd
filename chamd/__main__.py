@@ -125,8 +125,8 @@ class MetaValue:
 class MetaDate(MetaValue):
     def __init__(self, el, metadata):
         d = metadata[el]
-        normalizeddate = d.isoformat()
-        super().__init__(el, "date", str(normalizedate))
+        normalized_date = d.isoformat()
+        super().__init__(el, "date", str(normalized_date))
 
 class MetaInt(MetaValue):
     def __init__(self, el, metadata):
