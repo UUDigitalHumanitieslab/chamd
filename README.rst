@@ -1,4 +1,4 @@
-.. image:: https://travis-ci.org/UUDigitalHumanitieslab/chamd.svg?branch=develop
+.. image:: https://travis-ci.org/UUDigitalHumanitieslab/chamd.svg?branch=master
     :target: https://travis-ci.org/UUDigitalHumanitieslab/chamd
 
 Conversion and cleaning of CHILDES CHA files into PaQu Plaintext
