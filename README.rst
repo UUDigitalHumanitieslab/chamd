@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/UUDigitalHumanitieslab/chamd.svg?branch=develop
+    :target: https://travis-ci.org/UUDigitalHumanitieslab/chamd
+
 Conversion and cleaning of CHILDES CHA files into PaQu Plaintext
 Metadata Format (to convert to Alpino).
 
@@ -19,3 +22,10 @@ Upload to PyPi
 
    python setup.py sdist
    twine upload dist/*
+
+Run tests
+=========
+
+.. code:: bash
+
+    python -m unittest discover tests/

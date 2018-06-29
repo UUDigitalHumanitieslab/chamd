@@ -422,7 +422,7 @@ def treatutt(line, metadata):
     endspk = line.find(':')
     code = line[1:endspk]
     metadata["speaker"] = code
-    metadata['origutt'] = line[endspk+1:-1]
+    metadata['origutt'] = line[endspk+2:-1]
 
 
 def updateCharMap(str, charmap):
@@ -590,39 +590,39 @@ def main(args=None):
                 os.makedirs(outfullpath)
             outfilename = base + options.outext
             outfullname = os.path.join(outfullpath, outfilename)
-            outfile = open(outfullname, 'w', encoding='utf8')
-            lineno = 0
-            uttid = 0
-            counter = {}
-            for el in simplecounterheaders:
-                counter[el] = 0
-            headermodified = False
-            linetoprocess = ""
-            for line in thefile:
-                lineno += 1
-                startchar = line[0:1]
-                if startchar in ['\t']:
-                    linetoprocess = combine(linetoprocess, line)
-                elif startchar in [mdchar, uttchar, annochar, space]:
-                    if linetoprocess != "":
-                        (uttid, headermodified) = processline(base, options.cleanfilename,
-                                                              lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
-                    linetoprocess = line
-                #print(metadata, file=logfile)
-                #print(input('Continue?'), file=logfile)
-            # deal with the last line
-            (uttid, headermodified) = processline(base, options.cleanfilename,
-                                                  lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
+            with open(outfullname, 'w', encoding='utf8') as outfile:
+                lineno = 0
+                uttid = 0
+                counter = {}
+                for el in simplecounterheaders:
+                    counter[el] = 0
+                headermodified = False
+                linetoprocess = ""
+                for line in thefile:
+                    lineno += 1
+                    startchar = line[0:1]
+                    if startchar in ['\t']:
+                        linetoprocess = combine(linetoprocess, line)
+                    elif startchar in [mdchar, uttchar, annochar, space]:
+                        if linetoprocess != "":
+                            (uttid, headermodified) = processline(base, options.cleanfilename,
+                                                                lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
+                        linetoprocess = line
+                    #print(metadata, file=logfile)
+                    #print(input('Continue?'), file=logfile)
+                # deal with the last line
+                (uttid, headermodified) = processline(base, options.cleanfilename,
+                                                    lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
 
     hexformat = '{0:#06X}'
     #hexformat = "0x%0.4X"
-    charmapfile = open(charmapfilename, 'w', encoding='utf8')
-    charmapwriter = csv.writer(charmapfile, delimiter=tab, quotechar=myquotechar,
+    with open(charmapfilename, 'w', encoding='utf8') as charmapfile:
+        charmapwriter = csv.writer(charmapfile, delimiter=tab, quotechar=myquotechar,
                                quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
-    for el in charmap:
-        ordel = ord(el)
-        therow = [el, ordel, hexformat.format(ordel), charmap[el]]
-        charmapwriter.writerow(therow)
+        for el in charmap:
+            ordel = ord(el)
+            therow = [el, ordel, hexformat.format(ordel), charmap[el]]
+            charmapwriter.writerow(therow)
     # read metadata from the CHA file
 
     # first read the character encoding

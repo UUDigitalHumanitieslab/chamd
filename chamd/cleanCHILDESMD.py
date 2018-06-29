@@ -77,6 +77,8 @@ plusquote = re.compile(r'\+(\+\"\.|!\?)')
 squarebracketseen = re.compile(r'\[een\]')
 squarebracketstwee = re.compile(r'\[twee\]')
 
+interpunction = re.compile(r'([,!?“”"]|\.$)')
+whitespace = re.compile(r'\s+')
 
 #nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
 #nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
@@ -362,9 +364,12 @@ def cleantext(str):
     result = squarebracketseen.sub(space, result)
     result = squarebracketstwee.sub(space, result)
 
+# surround interpunction with whitespace
+    result = interpunction.sub(lambda m: ' ' + m.group(0) + ' ', result)
 
-# remove superfluous spaces etc. this also removes CR etc
-#    result = result.strip()
+# remove superfluous spaces etc. this also removes CR etc    
+    result = whitespace.sub(' ', result)
+    result = result.strip()
     return(result)
 # end function cleantext
 
