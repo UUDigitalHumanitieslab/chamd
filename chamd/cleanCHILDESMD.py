@@ -3,6 +3,10 @@ import sys
 import re
 import os
 
+baseversion = "0"
+subversion = "04"
+version = baseversion + "." + subversion
+
 
 def scoped(str):
     result = scopestr + str
@@ -22,6 +26,8 @@ hexformat = '\\u{0:04X}'
 #scopestr = r'<([^<>]*)>\s*'
 
 scopestr = r'<(([^<>]|\[<\]|\[>\])*)>\s*'
+
+# [/-] and [/?] CHAT manual p. 74 not covered yet]
 
 gtrepl = '\x00A9'  # copyright sign
 ltrepl = '\x00AE'  # Registered sign
@@ -50,14 +56,19 @@ ltre = re.compile(ltstr)
 
 #ltre1 = re.compile(scoped(ltstr))
 #ltre2 = re.compile(ltstr)
+chatword = r'(&[-+=]?)?[\w\(\):+]+'
 doubleslashstr = r'\[//\]'
+wdoubleslash = chatword+r'\s*'+doubleslashstr
 doubleslash1 = re.compile(scoped(doubleslashstr))
 doubleslash2 = re.compile(doubleslashstr)
+wdoubleslash1 = re.compile(wdoubleslash)
 exclam2 = re.compile(r'\[!\]')
 exclam1 = re.compile(r'<([^>]*)>\s*\[!\]')
 slash = r'\[/\]'
+wslash = chatword+r'\s*'+slash
 slash2 = re.compile(scoped(slash))
 slash1 = re.compile(slash)
+wslash1 = re.compile(wslash)
 gtstr = r'\[>\]'
 gtre = re.compile(gtstr)
 #gtre1 = re.compile(scoped(gtstr))
@@ -118,10 +129,13 @@ scopedtimes = re.compile(scoped(timesstr))
 scopedinlinecom = re.compile(r'<([^<>]*)>\s*\[\% [^\]]*\]')
 inlinecom = re.compile(r'\[\% [^\]]*\]')
 tripleslash = r'\[///\]'
+wtripleslash = chatword+r'\s*'+tripleslash
+
 reformul = re.compile(tripleslash)
 scopedreformul = re.compile(scoped(tripleslash))
+wreformul = re.compile(wtripleslash)
 endquote = re.compile(r'\+"/\.')
-errormarkstr = r'\[\*\]'
+errormarkstr = r'\[\*[^]]*\]'   # adapted to deal with the codings in CHAT manual p. 103/104
 errormark2 = re.compile(errormarkstr)
 errormark1 = re.compile(scoped(errormarkstr))
 dependenttier = re.compile(r'\[%(act|add|gpx|int|sit|spe):[^]]*\]')
@@ -143,12 +157,12 @@ def checkline(line, newline, outfilename, lineno, logfile):
     if checkpattern.search(newline) or pluspattern.search(newline):
         print(outfilename, lineno, 'suspect character', file=logfile)
         print('input=<{}>'.format(line[:-1]), file=logfile)
-        print('output=<{}>'.format(newline[:-1]), file=logfile)
-        thecodes = str2codes(newline[:-1])
+        print('output=<{}>'.format(newline), file=logfile)
+        thecodes = str2codes(newline)
         print('charcodes=<{}>'.format(thecodes), file=logfile)
 
 
-def cleantext(str):
+def cleantext(str,repkeep):
     result = str
 
     # if times.search(result):
@@ -166,7 +180,7 @@ def cleantext(str):
         b = match.start(1) + 1
         e = match.end(1) - 1
         midstr = result[b:e]
-        newmidstr = cleantext(midstr)
+        newmidstr = cleantext(midstr,repkeep)
         leftstr = result[:b]
         rightstr = result[e:]
         result = leftstr+newmidstr+rightstr
@@ -196,11 +210,18 @@ def cleantext(str):
 # remove inline comments [% ...] p70, 78, 85
     result = inlinecom.sub(eps, result)
 
-# remove scoped reformulation symbols [///] p 73
-    result = scopedreformul.sub(r'\1', result)
 
-# remove reformulation symbols [///] p 73
-    result = reformul.sub(space, result)
+# keep or remove scoped reformulation symbols [///] p 73 depending on repkeep
+    if repkeep:
+        result = scopedreformul.sub(r'\1', result)
+    else:
+        result = scopedreformul.sub(eps, result)
+
+# keep or remove reformulation symbols [///] p 73 depending on repkeep
+    if repkeep:
+        result = reformul.sub(space, result)
+    else:
+        result = wreformul.sub(eps,result)
 
 # remover errormark1 [*] and preceding <>
     result = errormark1.sub(r'\1 ', result)
@@ -233,34 +254,6 @@ def cleantext(str):
 #    result = re.sub(r'yyy', '', result)
 
 
-# remove filled pauses ( &- p. 89)
-    result = filledpause.sub(space, result)
-
-# remove phonological fragments &+
-#    https://talkbank.org/manuals/Clin-CLAN.pdf states &+ for phonological fragments(p. 18)
-    result = phonfrag0.sub(space, result)
-
-
-# remove phonological fragments p. 61 &=
-    result = phonfrag1.sub(eps, result)
-
-
-# remove phonological fragments p.61 &
-    result = phonfrag2.sub(eps, result)
-
-# remove www intentionally after phonological fragments
-    result = www.sub(eps, result)
-
-
-# replace 0[A-z] works ok now, raw replacement string!
-    result = zerostr.sub(r'\1', result)
-
-# delete any remaining 0's
-    result = barezero.sub(space, result)
-
-# remove underscore
-    result = re.sub(r'_', eps, result)
-
 # remove +..  p. 63
     result = plusdotdot.sub(eps, result)
 
@@ -278,11 +271,20 @@ def cleantext(str):
     result = gtreplre2.sub(space, result)
 
 
-# remove [//] keep preceding part between <>, drop <>
-    result = doubleslash1.sub(r'\1', result)
 
-# remove [//] keep preceding word
-    result = doubleslash2.sub(eps, result)
+
+# remove [//] keep preceding part between <>, drop <> or delete <...> depending on repkeep
+    if repkeep:
+        result = doubleslash1.sub(r'\1', result)
+    else:
+        result = doubleslash1.sub(eps, result)
+
+
+# remove [//] keep preceding word or delete it depending on repkeep
+    if repkeep:
+        result = doubleslash2.sub(eps, result)
+    else:
+        result = wdoubleslash1.sub(eps,result)
 
 # remove [!] and <> around preceding text    p.68
     result = exclam1.sub(r'\1', result)
@@ -291,11 +293,18 @@ def cleantext(str):
     result = exclam2.sub(space, result)
 
 
-# remove [/] keep preceding part between <> this line and following one: crucial order
-    result = slash2.sub(r'\1', result)
+# remove [/] keep or delete preceding part between <> depending on repkeep option this line and following one: crucial order
+    if repkeep:
+        result = slash2.sub(r'\1', result)
+    else:
+        result = slash2.sub(eps, result)
 
-# remove [/] keep the word before
-    result = slash1.sub(eps, result)
+# remove [/] keep the word before or delete it depending on repkeep option
+    if repkeep:
+        result = slash1.sub(eps, result)
+    else:
+        result = wslash1.sub(eps,result)
+
 #    result = re.sub(r'\[<\]', '', result)
 
 
@@ -317,7 +326,32 @@ def cleantext(str):
 # replace word [: text] by text
     result = colonre.sub(r'\1 ', result)
 
-# remove [!!]
+    # remove filled pauses ( &- p. 89)
+    result = filledpause.sub(space, result)
+
+    # remove phonological fragments &+
+    #    https://talkbank.org/manuals/Clin-CLAN.pdf states &+ for phonological fragments(p. 18)
+    result = phonfrag0.sub(space, result)
+
+    # remove phonological fragments p. 61 &=
+    result = phonfrag1.sub(eps, result)
+
+    # remove phonological fragments p.61 &
+    result = phonfrag2.sub(eps, result)
+
+    # remove www intentionally after phonological fragments
+    result = www.sub(eps, result)
+
+    # replace 0[A-z] works ok now, raw replacement string!
+    result = zerostr.sub(r'\1', result)
+
+    # delete any remaining 0's
+    result = barezero.sub(space, result)
+
+    # remove underscore
+    result = re.sub(r'_', eps, result)
+
+    # remove [!!]
     result = doubleexclam.sub(space, result)
 
 # remove +"/. p. 64-65
@@ -392,8 +426,18 @@ def str2codes(str):
         result.append((curchar, curcode))
     return(result)
 
-
-checkpattern = re.compile(
-    r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001\u2260\u21AB]')
+	
+def removesuspects(str):
+        result1 = re.sub(checkpattern, space, str)
+        result2 = re.sub(pluspattern1, r'\1', result1)
+        result = re.sub(pluspattern2, r'\1', result2)
+        return result
+		
+        
+checkpattern = re.compile(r'[][\(\)&%@/=><_0^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ123456789·\u22A5\u00B7\u0001\u2260\u21AB]')
 # + should not occur except as compound marker black+board
-pluspattern = re.compile(r'\W\+|\+\W')
+# next one split up in order to do substitutions
+pluspattern = re.compile(r'(\W)\+|\+(\W)')
+pluspattern1 = re.compile(r'(\W)\+')
+pluspattern2 = re.compile(r'\+(\W)')
+
