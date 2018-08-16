@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Created on Wed Dec  7 15:53:51 2016
-
 @author: Odijk101
 """
 
@@ -12,7 +11,8 @@ import os
 import sys
 import re
 import csv
-from chamd import cleanCHILDESMD
+#from chamd import cleanCHILDESMD
+import cleanCHILDESMD
 
 # functions
 
@@ -191,10 +191,18 @@ def print_uttmd(metadata, outfile):
     spkrline = MetaTxt("speaker", metadata)
     #parsefileline = MetaTxt('parsefile', metadata)
     origuttline = MetaTxt("origutt", metadata)
+    uttstartlineno  = MetaInt('uttstartlineno', metadata)
+    uttendlineno = MetaInt('uttendlineno', metadata)
+    childageline = MetaTxt('childage', metadata)
+    childmonthsline = MetaInt('childmonths', metadata)
     print(uttidline, file=outfile)
     print(spkrline, file=outfile)
     #print(parsefileline, file=outfile)
     print(origuttline, file=outfile)
+    print(uttstartlineno, file=outfile)
+    print(uttendlineno, file=outfile)
+    print(childageline, file=outfile)
+    print(childmonthsline, file=outfile)
     curcode = metadata['speaker']
     if curcode in metadata['participants']:
         for el in metadata['participants'][curcode]:
@@ -220,12 +228,12 @@ def print_uttmd(metadata, outfile):
                         el, curval), file=logfile)
 
 
-def processline(base, cleanfilename, lineno, line, md, uttid, headermodified, outfilename):
+def processline(base, cleanfilename, entrystartno, lineno, theline, md, uttid, headermodified, outfilename,infilename, repkeep):
     global cleanfile
-    startchar = line[0:1]
+    startchar = theline[0:1]
     if startchar == mdchar:
         # to implement
-        treat_mdline(lineno, line, metadata)
+        treat_mdline(lineno, theline, metadata, infilename)
         headermodified = True
 #        print(metadata, file=mdlog)
     else:
@@ -235,20 +243,24 @@ def processline(base, cleanfilename, lineno, line, md, uttid, headermodified, ou
             headermodified = False
         if startchar == uttchar:
             metadata['uttid'] = uttid
-            treatutt(line, metadata)
+            metadata['uttstartlineno'] = entrystartno
+            metadata['uttendlineno'] = lineno
+            treatutt(theline, metadata)
             corpus = getcorpus(metadata)
             parsefilename = getparsefile(corpus, base, uttid)
             metadata['parsefile'] = parsefilename
-            endspk = line.find(':')
+            endspk = theline.find(':')
             if endspk < 0:
-                print('error in line: {}'.format(line), file=logfile)
-            entry = line[endspk+2:]
-            cleanentry = cleanCHILDESMD.cleantext(entry)
+                print('error in entry  on line(s) {}-{}: {}'.format(entrystartno, lineno, theline), file=logfile)
+            entry = theline[endspk+2:]
+            cleanentry = cleanCHILDESMD.cleantext(entry,repkeep)
             if isNotEmpty(cleanfilename):
                 write2cleanfile(entry, cleanentry, cleanfile)
             cleanCHILDESMD.checkline(
-                line, cleanentry, outfilename, lineno, logfile)
+                theline, cleanentry, outfilename, lineno, logfile)
             updateCharMap(cleanentry, charmap)
+            # remove suspect characters in the output
+            cleanentry = cleanCHILDESMD.removesuspects(cleanentry)
 
             print_uttmd(metadata, outfile)
             print(cleanentry, file=outfile)
@@ -258,7 +270,7 @@ def processline(base, cleanfilename, lineno, line, md, uttid, headermodified, ou
             # to be implemented
             pass
         else:
-            print(line, file=outfile)
+            print(theline, file=outfile)
     return(uttid, headermodified)
 
 
@@ -271,7 +283,7 @@ def setatt(entrylist, i):
     return(result)
 
 
-def treat_mdline(lineno, headerline, metadata):
+def treat_mdline(lineno, headerline, metadata,infilename):
     global counter
     headernameend = headerline.find(headerlineendsym)
     if headernameend < 0:
@@ -285,8 +297,7 @@ def treat_mdline(lineno, headerline, metadata):
         elif cleanheaderline == '@blank':
             pass
         else:
-            print("Warning: unknown header {} encountered in line {}".format(
-                headerline, lineno), file=logfile)
+            print("Warning: {}: unknown header {} encountered in line {}".format(infilename, headerline, lineno), file=logfile)
 
     else:
         headername = headerline[1:headernameend]
@@ -307,9 +318,9 @@ def treat_mdline(lineno, headerline, metadata):
         elif cleanheadername == 'options':
             pass
         elif cleanheadername == 'participants':
-            treatparticipants(entrylist, metadata)
+            treatparticipants(entrylist, metadata, infilename)
         elif cleanheadername == 'id':
-            treatid(entry, metadata)
+            treatid(entry, metadata, infilename)
         elif cleanheadername == 'date':
             metadata[cleanheadername] = normalizedate(cleanentry)
         elif cleanheadername in simpleheadernames:
@@ -333,18 +344,21 @@ def treat_mdline(lineno, headerline, metadata):
                 #print('<{}>'.format(cleanentry), file=logfile)
                 #print(input('Continue?'), file=logfile)
                 metadata['id'][headerparameter]['age'] = cleanentry
+                if cleanentry != '':
+                    metadata['childage'] = cleanentry
                 months = getmonths(cleanentry)
                 if months != 0:
                     metadata['id'][headerparameter]['months'] = months
+                    if months != '':
+                        metadata['childmonths'] = months
             else:
                 metadata['id'][headerparameter][cleanheadernamebase] = cleanentry
 
         else:
-            print('Warning: unknown metadata element encountered: {}'.format(
-                cleanheadername), file=logfile)
+            print('Warning: {}: unknown metadata element encountered: {}'.format(infilename,cleanheadername), file=logfile)
 
 
-def treatparticipants(entrylist, metadata):
+def treatparticipants(entrylist, metadata,infilename):
     for el in entrylist:
         ellist = el.split()
         ctr = 0
@@ -360,10 +374,9 @@ def treatparticipants(entrylist, metadata):
             name = ""
             role = ellist[1]
         else:
-            print("error in participants: too few elements {}".format(
-                entrylist), file=logfile)
+            print("{}: error in participants: too few elements {}".format( infilename, entrylist), file=logfile)
         if code != "":
-            if "participants"not in metadata:
+            if "participants" not in metadata:
                 metadata["participants"] = {}
             if code not in metadata["participants"]:
                 metadata["participants"][code] = {}
@@ -372,14 +385,16 @@ def treatparticipants(entrylist, metadata):
             if name != "":
                 metadata["participants"][code]["name"] = name
 
+def ischild(str):
+    result = 'child' in str.lower()
+    return result
 
-def treatid(entry, metadata):
+def treatid(entry, metadata, infilename):
     cleanentry = clean(entry)
     entrylist = cleanentry.split(idsep)
     lentrylist = len(entrylist)
     if lentrylist != 11:
-        print("Warning in id: {} elements instead of 11 in {}".format(
-            lentrylist, entry), file=logfile)
+        print("{}: Warning in id: {} elements instead of 11 in {}".format(infilename, lentrylist, entry), file=logfile)
     language = setatt(entrylist, 0)
     corpus = setatt(entrylist, 1)
     code = setatt(entrylist, 2)
@@ -394,7 +409,7 @@ def treatid(entry, metadata):
     education = setatt(entrylist, 8)
     custom = setatt(entrylist, 9)
     if code == "":
-        print("error in id: no code element in {}".format(entry), file=logfile)
+        print("{}: error in id: no code element in {}".format(infilename, entry), file=logfile)
     else:
         if "id" not in metadata:
             metadata["id"] = {}
@@ -405,11 +420,15 @@ def treatid(entry, metadata):
         if corpus != "":
             metadata["id"][code]["corpus"] = corpus
         metadata["id"][code]["age"] = age
+        if ischild(role):
+            metadata['childage'] = age
         if age != "":
             months = getmonths(age)
         else:
             months = ''
         metadata["id"][code]["months"] = months
+        if months != '':
+            metadata['childmonths'] = months
         metadata["id"][code]["sex"] = sex
         metadata["id"][code]["group"] = group
         metadata["id"][code]["SES"] = SES
@@ -502,7 +521,7 @@ def main(args=None):
         args = sys.argv[1:]
 
     baseversion = "0"
-    subversion = "03"
+    subversion = "04"
     version = baseversion + "." + subversion
     exactlynow = datetime.datetime.now()
     now = exactlynow.replace(microsecond=0).isoformat()
@@ -529,7 +548,9 @@ def main(args=None):
     parser.add_option("--outpath",
                       dest="outpath", default=".",
                       help="path where the processed files will be put")
-
+    parser.add_option("--repkeep",
+                      dest="repkeep", default=False, action="store_true",
+                      help="keep or delete (default) repeated parts ([/],[//],[//])")
     (options, args) = parser.parse_args(args)
 
     if isNotEmpty(options.logfilename):
@@ -574,6 +595,8 @@ def main(args=None):
             baseext = os.path.basename(fullname)
             (base, ext) = os.path.splitext(baseext)
             metadata['session'] = base
+            metadata['childage'] = ''
+            metadata['childmonths'] = ''
 
             absinpath = os.path.abspath(options.path)
             (initpath, lastfolder) = os.path.split(options.path)
@@ -592,6 +615,8 @@ def main(args=None):
             outfullname = os.path.join(outfullpath, outfilename)
             with open(outfullname, 'w', encoding='utf8') as outfile:
                 lineno = 0
+                entrystartno = 0
+                contlinecount =0
                 uttid = 0
                 counter = {}
                 for el in simplecounterheaders:
@@ -600,19 +625,25 @@ def main(args=None):
                 linetoprocess = ""
                 for line in thefile:
                     lineno += 1
+                    prevlineno = lineno - 1
                     startchar = line[0:1]
                     if startchar in ['\t']:
                         linetoprocess = combine(linetoprocess, line)
+                        contlinecount +=1
                     elif startchar in [mdchar, uttchar, annochar, space]:
+                        entrystartno = prevlineno - contlinecount
+                        contlinecount = 0
                         if linetoprocess != "":
-                            (uttid, headermodified) = processline(base, options.cleanfilename,
-                                                                lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
+                            (uttid, headermodified) = processline(base, options.cleanfilename, entrystartno,
+                                                                prevlineno, linetoprocess, metadata, uttid, headermodified, outfilename,fullname,options.repkeep)
                         linetoprocess = line
                     #print(metadata, file=logfile)
                     #print(input('Continue?'), file=logfile)
                 # deal with the last line
-                (uttid, headermodified) = processline(base, options.cleanfilename,
-                                                    lineno, linetoprocess, metadata, uttid, headermodified, outfilename)
+                entrystartno = lineno - contlinecount
+                (uttid, headermodified) = processline(base, options.cleanfilename, entrystartno,
+                                                    lineno, linetoprocess, metadata, uttid, headermodified, outfilename, fullname,options.repkeep)
+                contlinecount = 0
 
     hexformat = '{0:#06X}'
     #hexformat = "0x%0.4X"
@@ -634,3 +665,6 @@ def main(args=None):
     # and convert it to FoliA
 if __name__ == "__main__":
     main()
+
+ 
+
