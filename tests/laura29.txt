@@ -14490,7 +14490,7 @@ oh .
 
 ##META int uttid = 833
 ##META text speaker = LAU
-##META text origutt = beej ma nie pakke , kasje.
+##META text origutt = beej ma nie pakke , kasje [* m:a].
 ##META text name = Laura
 ##META text SES = 
 ##META text age = 2;11.06
@@ -14594,7 +14594,7 @@ zo .
 
 ##META int uttid = 839
 ##META text speaker = JAC
-##META text origutt = plak maar zo een paar stukjes op hoor , want +...
+##META text origutt = plak maar zo [*] een paar stukjes op hoor , want +...
 ##META text name = Jacqueline
 ##META text SES = 
 ##META text age = 
