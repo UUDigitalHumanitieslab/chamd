@@ -11,8 +11,7 @@ import os
 import sys
 import re
 import csv
-#from chamd import cleanCHILDESMD
-import cleanCHILDESMD
+from chamd import cleanCHILDESMD
 
 # functions
 
