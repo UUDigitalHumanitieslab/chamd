@@ -152,13 +152,20 @@ segmentrep = re.compile('\u21AB[^\u21AB]*\u21AB')
 blocking = re.compile('\u2260')
 internalpause = re.compile('\^')
 
+def check_suspect_chars(newline):
+    invalid = checkpattern.search(newline) or pluspattern.search(newline)
+    if invalid:
+        return (False, str2codes(newline))
+    else:
+        return (True, None)
+
 
 def checkline(line, newline, outfilename, lineno, logfile):
-    if checkpattern.search(newline) or pluspattern.search(newline):
+    (valid, thecodes) = check_suspect_chars(newline)
+    if not valid:
         print(outfilename, lineno, 'suspect character', file=logfile)
         print('input=<{}>'.format(line[:-1]), file=logfile)
         print('output=<{}>'.format(newline), file=logfile)
-        thecodes = str2codes(newline)
         print('charcodes=<{}>'.format(thecodes), file=logfile)
 
 

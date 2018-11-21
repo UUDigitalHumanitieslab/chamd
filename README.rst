@@ -13,7 +13,26 @@ Running from project:
 
 .. code:: bash
 
-   python -m chamd --help
+    python -m chamd --help
+
+Import as Library
+=================
+
+This way the library can be used to read CHAT file (contents) from an external application.
+
+.. code:: python
+
+    from chamd import ChatReader
+    reader = ChatReader()
+    chat = reader.read_file('example.cha') # or read_string
+    
+    for item in chat.metadata:
+        print(item)
+    for line in chat.lines:
+        for item in line.metadata:
+            print(item)
+        print(line.text)
+
 
 Upload to PyPi
 ==============
@@ -23,7 +42,7 @@ Upload to PyPi
    python setup.py sdist
    twine upload dist/*
 
-Run tests
+Run Tests
 =========
 
 .. code:: bash
