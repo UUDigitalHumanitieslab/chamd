@@ -568,10 +568,11 @@ class ChatReader:
         headermodified = False
         linetoprocess = ""
         current_line = None
+        skipping_line = False
 
         def process_line_steps(linetoprocess):
             global metadata
-            nonlocal uttid, headermodified, current_line
+            nonlocal uttid, headermodified, current_line, skipping_line
             for step in processline(base,
                                     filename,
                                     entrystartno,
@@ -588,10 +589,16 @@ class ChatReader:
                     current_line = step
                     uttid = step.uttid
                 elif type(step) is AppendLine:
-                    current_line.text += '\n' + step.text
+                    if not skipping_line:
+                        current_line.text += '\n' + step.text
                 elif type(step) is ChatFileHeader:
                     for name, value in step.metadata.items():
                         chat_file.metadata[name] = value
+                
+                if type(step) is SkipLine:
+                    skipping_line = True
+                elif not type(step) is AppendLine:
+                    skipping_line = False
 
                 if type(step) is HeaderModified:
                     headermodified = True
