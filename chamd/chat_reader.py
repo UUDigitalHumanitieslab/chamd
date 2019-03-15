@@ -605,25 +605,27 @@ class ChatReader:
                 else:
                     headermodified = False
 
-        for line in content.splitlines():
-            prevlineno = lineno
-            lineno += 1
-            startchar = line[0:1]
-            if startchar in ['\t']:
-                linetoprocess = combine(linetoprocess, line)
-                contlinecount += 1
-            elif startchar in [mdchar, uttchar, annochar, space]:
-                entrystartno = prevlineno - contlinecount
-                contlinecount = 0
-                if linetoprocess != "":
-                    process_line_steps(linetoprocess)
-                linetoprocess = line
-            # print(metadata, file=logfile)
-            # print(input('Continue?'), file=logfile)
-        # deal with the last line
-        entrystartno = lineno - contlinecount
-        process_line_steps(linetoprocess)
-
+        try:
+            for line in content.splitlines():
+                prevlineno = lineno
+                lineno += 1
+                startchar = line[0:1]
+                if startchar in ['\t']:
+                    linetoprocess = combine(linetoprocess, line)
+                    contlinecount += 1
+                elif startchar in [mdchar, uttchar, annochar, space]:
+                    entrystartno = prevlineno - contlinecount
+                    contlinecount = 0
+                    if linetoprocess != "":
+                        process_line_steps(linetoprocess)
+                    linetoprocess = line
+                # print(metadata, file=logfile)
+                # print(input('Continue?'), file=logfile)
+            # deal with the last line
+            entrystartno = lineno - contlinecount
+            process_line_steps(linetoprocess)
+        except:
+            raise Exception(f"Problem parsing {filename}:{lineno}")
         if current_line != None:
             chat_file.lines.append(current_line)
 
