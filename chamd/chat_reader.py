@@ -274,7 +274,7 @@ charcodes={}
 
             for item in get_uttmd(metadata, outfile):
                 # print(str(item))
-                chat_line.metadata[item.uel] = str(item)
+                chat_line.metadata[item.uel] = item
                 pass
 
             chat_line.text = cleanentry
