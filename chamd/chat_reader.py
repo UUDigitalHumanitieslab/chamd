@@ -625,7 +625,7 @@ class ChatReader:
             entrystartno = lineno - contlinecount
             process_line_steps(linetoprocess)
         except:
-            raise Exception(f"Problem parsing {filename}:{lineno}")
+            raise Exception("Problem parsing {0}:{1}".format(filename, lineno))
         if current_line != None:
             chat_file.lines.append(current_line)
 

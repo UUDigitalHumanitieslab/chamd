@@ -138,11 +138,11 @@ def main(args=None):
             outfullname = os.path.join(outfullpath, outfilename)
 
             with open(outfullname, 'w', encoding='utf8') as outfile:
-                for _, item in chat.metadata.items():
+                for _, item in sorted(chat.metadata.items()):
                     print(item, file=outfile)
                 print('\n\n', file=outfile)
                 for line in chat.lines:
-                    for _, item in line.metadata.items():
+                    for _, item in sorted(line.metadata.items()):
                         print(item, file=outfile)
                     print(line.text, file=outfile)
                     print('\n', file=outfile)

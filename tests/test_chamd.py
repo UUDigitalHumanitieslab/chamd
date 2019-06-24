@@ -43,9 +43,9 @@ class TestChamd(unittest.TestCase):
                 found = False
                 for actual_file in actual_files:
                     if os.path.basename(actual_file) == basename:
-                        with open(actual_file) as handle:
+                        with open(actual_file, encoding='utf-8') as handle:
                             actual_lines = handle.readlines()
-                        with open(expected_file) as handle:
+                        with open(expected_file, encoding='utf-8') as handle:
                             expected_lines = handle.readlines()
                         diff_lines = list(difflib.context_diff(
                             expected_lines,
