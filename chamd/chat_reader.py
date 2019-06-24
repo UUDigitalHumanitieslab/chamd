@@ -25,7 +25,7 @@ def clean(line):
 
 
 def combine(str1, str2):
-    result = str2 if str1 == "" else space.join([str1[:-1], str2])
+    result = str2 if str1 == "" else space.join([str1.rstrip(), str2.lstrip()])
     return(result)
 
 

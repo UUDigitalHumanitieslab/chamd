@@ -19230,9 +19230,9 @@ horloge ?
 
 ##META int uttid = 899
 ##META text speaker = LAU
-##META text origutt = ja.
+##META text origutt = ja, ja.
 ##META int uttstartlineno = 924
-##META int uttendlineno = 924
+##META int uttendlineno = 925
 ##META text childage = 2;11.06
 ##META int childmonths = 35
 ##META text name = Laura
@@ -19247,6 +19247,6 @@ horloge ?
 ##META int months = 35
 ##META text role = Child
 ##META text sex = 
-ja .
+ja , ja .
 
 

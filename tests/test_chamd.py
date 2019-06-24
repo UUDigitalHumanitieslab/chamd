@@ -53,9 +53,10 @@ class TestChamd(unittest.TestCase):
                             basename + ' (expected)',
                             basename + ' (actual)'))
                         if len(diff_lines) > 0:
-                            self.fail(''.join(diff_lines))
+                            self.fail(''.join(line for line in diff_lines))
                         
                         found = True
                         break
                 if not found:
                     self.fail('No output for ' + expected_file)
+
