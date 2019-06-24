@@ -5,8 +5,8 @@ with open('README.rst') as file:
 
 setup(
     name='chamd',
-    python_requires='>=3.6, <4',
-    version='0.4.4',
+    python_requires='>=3.5, <4',
+    version='0.4.5',
     description='Conversion and cleaning of CHILDES CHA files into PaQu Plaintext Metadata Format',
     long_description=long_description,
     author='Digital Humanities Lab, Utrecht University',
