@@ -2048,7 +2048,7 @@ ja , moet ik het even pakken ?
 ##META int uttendlineno = 108
 ##META int uttid = 95
 ##META int uttstartlineno = 108
-##META text Action = LAU walks to the kitchen
+##META text action = LAU walks to the kitchen
 ik geloof er niets van , dat de jam op is .
 
 
@@ -2498,7 +2498,7 @@ het wordt koud hier in de kamer .
 ##META int uttendlineno = 130
 ##META int uttid = 116
 ##META int uttstartlineno = 130
-##META text Explanation = LAU enters the room again
+##META text explanation = LAU enters the room again
 lelelelele !
 
 
@@ -2520,7 +2520,7 @@ lelelelele !
 ##META int uttendlineno = 132
 ##META int uttid = 117
 ##META int uttstartlineno = 132
-##META text Action = LAU shuts the door
+##META text action = LAU shuts the door
 en de deur .
 
 
@@ -2628,7 +2628,7 @@ nee , ik wi lepeltje in .
 ##META int uttendlineno = 138
 ##META int uttid = 122
 ##META int uttstartlineno = 138
-##META text Action = LAU walks to the cupboard
+##META text action = LAU walks to the cupboard
 ja nou , ga je een lepeltje pakken .
 
 
@@ -3982,7 +3982,7 @@ daa , hee .
 ##META int uttendlineno = 202
 ##META int uttid = 185
 ##META int uttstartlineno = 202
-##META text Paralinguistics = LAU laughs
+##META text paralinguistics = LAU laughs
 yyy .
 
 
@@ -5026,7 +5026,7 @@ ja .
 ##META int uttendlineno = 252
 ##META int uttid = 234
 ##META int uttstartlineno = 252
-##META text Action = LAU shuts the door
+##META text action = LAU shuts the door
 ook nog .
 
 
@@ -8528,7 +8528,7 @@ oh .
 ##META int uttendlineno = 416
 ##META int uttid = 397
 ##META int uttstartlineno = 416
-##META text Paralinguistics = LAU laughs
+##META text paralinguistics = LAU laughs
 yyy .
 
 
@@ -8829,7 +8829,7 @@ ja , dat zullen we maar weer even op doen , he .
 ##META int uttendlineno = 431
 ##META int uttid = 411
 ##META int uttstartlineno = 431
-##META text Action = JAC is going to get a cloth
+##META text action = JAC is going to get a cloth
 eh , eh .
 
 
@@ -8872,7 +8872,7 @@ zo .
 ##META int uttendlineno = 434
 ##META int uttid = 413
 ##META int uttstartlineno = 434
-##META text Action = JAC cleans , brings cloth away , comes back
+##META text action = JAC cleans , brings cloth away , comes back
 nou is weer schoon .
 
 
@@ -8980,7 +8980,7 @@ oh ja , je hebt gelijk .
 ##META int uttendlineno = 440
 ##META int uttid = 418
 ##META int uttstartlineno = 440
-##META text Action = JAC walks to the kitchen
+##META text action = JAC walks to the kitchen
 die zullen we even onder de kraan houden , dan .
 
 
@@ -11354,7 +11354,7 @@ ik geloof van niet , hoor .
 ##META int uttendlineno = 552
 ##META int uttid = 529
 ##META int uttstartlineno = 552
-##META text Action = LAU and JAC are going upstairs
+##META text action = LAU and JAC are going upstairs
 ik zeg het maar al vast .
 
 
@@ -11548,7 +11548,7 @@ vasthoue .
 ##META int uttendlineno = 562
 ##META int uttid = 538
 ##META int uttstartlineno = 562
-##META text Action = they come down
+##META text action = they come down
 is foor mij .
 
 
@@ -11612,7 +11612,7 @@ in de schuur heb ik nog wel een klein kwastje .
 ##META int uttendlineno = 566
 ##META int uttid = 541
 ##META int uttstartlineno = 566
-##META text Action = JAC goes to the shed , returns
+##META text action = JAC goes to the shed , returns
 met lijm xxx voor bij een kwastje xxx .
 
 
@@ -12187,7 +12187,7 @@ en e xxx bij .
 ##META int uttendlineno = 594
 ##META int uttid = 568
 ##META int uttstartlineno = 594
-##META text Action = JAC puts some glue in pot
+##META text action = JAC puts some glue in pot
 oh , , ik hoop wel dat die nog goed is .
 
 
@@ -19263,7 +19263,7 @@ horloge ?
 ##META int uttendlineno = 928
 ##META int uttid = 900
 ##META int uttstartlineno = 927
-##META text Comment = end of LAU29 CHA voorbeeld over twee regels
+##META text comment = end of LAU29 CHA voorbeeld over twee regels
 ja , ja .
 
 
