@@ -144,6 +144,8 @@ def main(args=None):
                 for line in chat.lines:
                     for _, item in sorted(line.metadata.items()):
                         print(item, file=outfile)
+                    for _, item in sorted(line.tiers.items()):
+                        print(item, file=outfile)
                     print(line.text, file=outfile)
                     print('\n', file=outfile)
         finally:

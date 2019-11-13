@@ -6,6 +6,7 @@ Created on Wed Dec  7 15:53:51 2016
 
 
 from optparse import OptionParser
+from typing import cast, Dict, List, Optional
 import datetime
 import os
 import sys
@@ -15,8 +16,40 @@ from .cleanCHILDESMD import cleantext, check_suspect_chars, removesuspects
 
 # functions
 
-charmap = {}
-errors = []
+charmap = cast(Dict[str, str], {})
+errors = cast(List[str], [])
+
+# From CHAT manual (October 1, 2019) https://talkbank.org/manuals/CHAT.pdf
+standard_tiers = {
+    "act": "Action",
+    "add": "Addressee",
+    "alt": "Alternate Transcription",
+    "cnl": "CONNL",
+    "cod": "Coding",
+    "coh": "Cohesion",
+    "com": "Comment",
+    "def": "Definitions",
+    "eng": "English Rendition",
+    "err": "Error Coding",
+    "exp": "Explanation",
+    "fac": "Facial Gesture",
+    "flo": "Flow",
+    "gls": "Gloss",
+    "gpx": "Gestural-Proxemic",
+    "gra": "Grammatical Relations",
+    "grt": "Grammatical Relations Training",
+    "int": "Intonational",
+    "mod": "Model",
+    "mor": "Morphological",
+    "ort": "Orthography",
+    "par": "Paralinguistics",
+    "pho": "Phonology",
+    "sin": "Signing",
+    "sit": "Situation",
+    "spa": "Speech Act",
+    "tim": "Timing",
+    "trn": "Training"
+}
 
 
 def clean(line):
@@ -215,8 +248,24 @@ class ChatFileHeader:
             self.metadata[item.uel] = item
 
 
-class SkipLine:
-    pass
+class ChatTier:
+    """Dependent tier containing additional information about a line.
+    """
+
+    def __init__(self, id, text):
+        self.id = id
+        self.text = text
+
+    @property
+    def name(self):
+        global standard_tiers
+        try:
+            return standard_tiers[self.id]
+        except KeyError:
+            return self.id
+
+    def __str__(self):
+        return space.join([metakw, "text", self.name, "=", self.text.replace('\n', ' ')])
 
 
 class AppendLine:
@@ -254,7 +303,6 @@ def processline(base, cleanfilename, entrystartno, lineno, theline, metadata, ut
                                                                             lineno, theline))
             entry = theline[endspk+2:]
             cleanentry = cleantext(entry, repkeep)
-            uttid += 1
             chat_line = ChatLine()
             chat_line.uttid = uttid
             chat_line.original = entry
@@ -279,9 +327,9 @@ charcodes={}
 
             chat_line.text = cleanentry
             yield chat_line
-        elif startchar == annochar:
-            # to be implemented
-            yield SkipLine()
+        elif startchar == dependent_tier_char:
+            colon = theline.find(':')
+            yield ChatTier(theline[1:colon], theline[colon+1:].lstrip())
         else:
             yield AppendLine(theline)
 
@@ -478,7 +526,7 @@ def updateCharMap(str, charmap):
 
 mdchar = "@"
 uttchar = "*"
-annochar = "%"
+dependent_tier_char = "%"
 headerlineendsym = ':'
 idsep = '|'
 metakw = '##META'
@@ -518,31 +566,35 @@ printinheaders = [
 metadata = {}
 outfile = None
 logfile = None
-counter = {}
+counter = cast(Dict[str, int], {})
 cleanfile = None
-
-
-class ChatFile:
-    def __init__(self):
-        self.charmap = {}
-        self.metadata = {}
-        self.lines = []
 
 
 class ChatLine:
     def __init__(self):
         self.metadata = {}
+        self.tiers = {}
+        self.text = ''
 
+
+class ChatFile:
+    def __init__(self,
+                 charmap: Dict[str, str] = {},
+                 metadata: Dict[str, MetaValue] = {},
+                 lines: List[ChatLine] = []):
+        self.charmap = charmap
+        self.metadata = metadata
+        self.lines = lines
 
 class ChatReader:
     def __init__(self):
         self.repkeep = False
 
-    def read_file(self, filename):
+    def read_file(self, filename: str) -> ChatFile:
         with open(filename, encoding='utf-8') as file:
             return self.read_string(file.read(), filename)
 
-    def read_string(self, content, filename):
+    def read_string(self, content: str, filename: str) -> ChatFile:
         global charmap, counter, errors, metadata
         charmap = {}
         errors = []
@@ -560,19 +612,20 @@ class ChatReader:
         lineno = 0
         entrystartno = 0
         contlinecount = 0
-        uttid = 0
+        uttid = 1
         counter = {}
 
         for el in simplecounterheaders:
             counter[el] = 0
         headermodified = False
         linetoprocess = ""
-        current_line = None
-        skipping_line = False
+        current_line = cast(Optional[ChatLine], None)
+        # dependent tier
+        current_tier = cast(Optional[ChatTier], None)
 
-        def process_line_steps(linetoprocess):
+        def process_line_steps(linetoprocess: str):
             global metadata
-            nonlocal uttid, headermodified, current_line, skipping_line
+            nonlocal uttid, headermodified, current_line, current_tier
             for step in processline(base,
                                     filename,
                                     entrystartno,
@@ -585,20 +638,27 @@ class ChatReader:
                                     self.repkeep):
                 if type(step) is ChatLine:
                     if current_line != None:
-                        chat_file.lines.append(current_line)
+                        known_line = cast(ChatLine, current_line)
+                        if current_tier != None:
+                            known_tier = cast(ChatTier, current_tier)
+                            known_line.tiers[known_tier.id] = known_tier
+                            current_tier = None
+                        chat_file.lines.append(known_line)
                     current_line = step
-                    uttid = step.uttid
+                    uttid = step.uttid + 1
                 elif type(step) is AppendLine:
-                    if not skipping_line:
-                        current_line.text += '\n' + step.text
+                    if current_tier != None:
+                        cast(ChatTier, current_tier).text += '\n' + \
+                            step.text.lstrip()
+                    else:
+                        cast(ChatLine, current_line).text += '\n' + \
+                            step.text.lstrip()
                 elif type(step) is ChatFileHeader:
                     for name, value in step.metadata.items():
                         chat_file.metadata[name] = value
-                
-                if type(step) is SkipLine:
-                    skipping_line = True
-                elif not type(step) is AppendLine:
-                    skipping_line = False
+
+                if type(step) is ChatTier:
+                    current_tier = step
 
                 if type(step) is HeaderModified:
                     headermodified = True
@@ -613,7 +673,7 @@ class ChatReader:
                 if startchar in ['\t']:
                     linetoprocess = combine(linetoprocess, line)
                     contlinecount += 1
-                elif startchar in [mdchar, uttchar, annochar, space]:
+                elif startchar in [mdchar, uttchar, dependent_tier_char, space]:
                     entrystartno = prevlineno - contlinecount
                     contlinecount = 0
                     if linetoprocess != "":
@@ -627,6 +687,10 @@ class ChatReader:
         except:
             raise Exception("Problem parsing {0}:{1}".format(filename, lineno))
         if current_line != None:
-            chat_file.lines.append(current_line)
+            known_line = cast(ChatLine, current_line)
+            if current_tier != None:
+                known_tier = cast(ChatTier, current_tier)
+                known_line.tiers[known_tier.id] = known_tier
+            chat_file.lines.append(known_line)
 
         return chat_file
