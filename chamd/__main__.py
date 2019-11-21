@@ -34,7 +34,7 @@ defaultoutext = ".txt"
 
 
 def main(args=None):
-    global metadata, outfile, logfile, counter, cleanfile
+    global metadata, logfile, counter, cleanfile
 
     """
     Main entry point.

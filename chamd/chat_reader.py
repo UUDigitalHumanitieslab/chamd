@@ -208,7 +208,7 @@ def get_headermd(metadata):
                     el))
 
 
-def get_uttmd(metadata, outfile):
+def get_uttmd(metadata):
     global errors
 
     yield MetaInt('uttid', metadata)
@@ -320,7 +320,7 @@ charcodes={}
             # remove suspect characters in the output
             cleanentry = removesuspects(cleanentry)
 
-            for item in get_uttmd(metadata, outfile):
+            for item in get_uttmd(metadata):
                 # print(str(item))
                 chat_line.metadata[item.uel] = item
                 pass
@@ -563,8 +563,7 @@ printinheaders = [
     headeratt for headeratt in allheaders if headeratt not in donotprintinheaders]
 
 # global variables
-metadata = {}
-outfile = None
+metadata = cast(Dict[str, str], {})
 logfile = None
 counter = cast(Dict[str, int], {})
 cleanfile = None
@@ -579,15 +578,16 @@ class ChatLine:
 
 class ChatFile:
     def __init__(self,
-                 charmap: Dict[str, str] = {},
-                 metadata: Dict[str, MetaValue] = {},
-                 lines: List[ChatLine] = []):
-        self.charmap = charmap
-        self.metadata = metadata
-        self.lines = lines
+                 charmap: Dict[str, str] = None,
+                 metadata: Dict[str, MetaValue] = None,
+                 lines: List[ChatLine] = None):
+        self.charmap = charmap or {}
+        self.metadata = metadata or {}
+        self.lines = lines or []
 
 class ChatReader:
     def __init__(self):
+        global metadata, counter, cleanfile
         self.repkeep = False
 
     def read_file(self, filename: str) -> ChatFile:
@@ -598,6 +598,10 @@ class ChatReader:
         global charmap, counter, errors, metadata
         charmap = {}
         errors = []
+
+        metadata = {}
+        counter = cast(Dict[str, int], {})
+
         self.errors = errors
         baseext = os.path.basename(filename)
         (base, ext) = os.path.splitext(baseext)

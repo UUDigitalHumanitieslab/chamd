@@ -1,0 +1,180 @@
+##META text charencoding = UTF8
+##META date date = 1980-05-17
+##META text pid = test
+##META text session = headers
+##META text situation = Dramatic plot twist
+
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = there is no escape!
+##META text speaker = DAR
+##META int uttendlineno = 8
+##META int uttid = 1
+##META int uttstartlineno = 8
+there is no escape !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = don’t make me destroy you
+##META text speaker = DAR
+##META int uttendlineno = 9
+##META int uttid = 2
+##META int uttstartlineno = 9
+don’t make me destroy you
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = Luke, you do not yet realize your importance
+##META text speaker = DAR
+##META int uttendlineno = 10
+##META int uttid = 3
+##META int uttstartlineno = 10
+Luke , you do not yet realize your importance
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = you’ve only begun to discover your power!
+##META text speaker = DAR
+##META int uttendlineno = 11
+##META int uttid = 4
+##META int uttstartlineno = 11
+you’ve only begun to discover your power !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = join me, and I will complete your training!
+##META text speaker = DAR
+##META int uttendlineno = 12
+##META int uttid = 5
+##META int uttstartlineno = 12
+join me , and I will complete your training !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = with our combined strength, we can end this destructive conflict, and bring order to the galaxy
+##META text speaker = DAR
+##META int uttendlineno = 13
+##META int uttid = 6
+##META int uttstartlineno = 13
+with our combined strength , we can end this destructive conflict , and bring order to the galaxy
+
+
+##META text childage = 
+##META int childmonths = 
+##META text origutt = I’ll never join you! [=! angry]
+##META text speaker = LUK
+##META int uttendlineno = 14
+##META int uttid = 7
+##META int uttstartlineno = 14
+I’ll never join you !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = if only you knew the power of the Dark Side
+##META text speaker = DAR
+##META int uttendlineno = 15
+##META int uttid = 8
+##META int uttstartlineno = 15
+if only you knew the power of the Dark Side
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = Obi-Wan never told you what happened to your father
+##META text speaker = DAR
+##META int uttendlineno = 16
+##META int uttid = 9
+##META int uttstartlineno = 16
+##META text comment = Kenobi
+Obi-Wan never told you what happened to your father
+
+
+##META text childage = 
+##META int childmonths = 
+##META text origutt = he told me enough!
+##META text speaker = LUK
+##META int uttendlineno = 18
+##META int uttid = 10
+##META int uttstartlineno = 18
+he told me enough !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text origutt = he told me you killed him!
+##META text speaker = LUK
+##META int uttendlineno = 19
+##META int uttid = 11
+##META int uttstartlineno = 19
+he told me you killed him !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = no, I am your father.
+##META text speaker = DAR
+##META int uttendlineno = 20
+##META int uttid = 12
+##META int uttstartlineno = 20
+no , I am your father .
+
+
+##META text childage = 
+##META int childmonths = 
+##META text origutt = no! no! that’s not true! that’s impossible! [=! shocked]
+##META text speaker = LUK
+##META int uttendlineno = 22
+##META int uttid = 13
+##META int uttstartlineno = 22
+no ! no ! that’s not true ! that’s impossible !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = search your feelings
+##META text speaker = DAR
+##META int uttendlineno = 23
+##META int uttid = 14
+##META int uttstartlineno = 23
+search your feelings
+
+
+##META text childage = 
+##META int childmonths = 
+##META text name = Darth
+##META text origutt = you know it to be true!
+##META text speaker = DAR
+##META int uttendlineno = 24
+##META int uttid = 15
+##META int uttstartlineno = 24
+you know it to be true !
+
+
+##META text childage = 
+##META int childmonths = 
+##META text origutt = NOOOOOOO! NOOOOOOOO!!!
+##META text speaker = LUK
+##META int uttendlineno = 25
+##META int uttid = 16
+##META int uttstartlineno = 25
+NOOOOOOO ! NOOOOOOOO ! ! !
+
+
