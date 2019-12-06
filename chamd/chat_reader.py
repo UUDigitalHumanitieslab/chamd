@@ -277,7 +277,7 @@ class ChatHeader:
     pass
 
 
-def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: dict, metadata, uttid, prev_header: bool, infilename, repkeep):
+def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: Dict[str, str], metadata, uttid, prev_header: bool, infilename, repkeep):
     global errors
     startchar = theline[0:1]
     if startchar == mdchar:
@@ -596,8 +596,8 @@ class ChatReader:
         charmap = {}
         errors = []
 
-        file_metadata = {}
-        metadata = {}
+        file_metadata = cast(Dict[str, str], {})
+        metadata = cast(Dict[str, str], {})
         counter = cast(Dict[str, int], {})
 
         self.errors = errors
