@@ -28,7 +28,8 @@ with tempfile.TemporaryDirectory() as tmpdir:
         shutil.copy(test_file, tmpdir)
     main(['-p', tmpdir,
             '--outpath', tmpdir,
-            '-c', os.path.join(tmpdir, 'charmap.txt')])
+            '-c', os.path.join(tmpdir, 'charmap.txt'),
+            '--verbose'])
 
     actual_files = glob.glob(
         os.path.join(tmpdir, '**', '*.txt'))

@@ -1,0 +1,26 @@
+@UTF8
+@PID:	test
+@Begin
+@Languages:	eng
+@Participants:	DAR Darth Father , CHI Luke Child
+@Date:	17-MAY-1980
+@Situation:	A galaxy, far, far away
+*DAR:	there is no escape!
+*DAR:	don’t make me destroy you
+*DAR:	Luke, you do not yet realize your importance
+*DAR:	you’ve only begun to discover your power!
+*DAR:	join me, and I will complete your training!
+*DAR:	with our combined strength, we can end this destructive conflict, and bring order to the galaxy
+*LUK:	I’ll never join you! [=! angry]
+*DAR:	if only you knew the power of the Dark Side
+*DAR:	Obi-Wan never told you what happened to your father
+%com:	Kenobi
+*LUK:	he told me enough!
+*LUK:	he told me you killed him!
+*DAR:	no, I am your father.
+@Situation:	Dramatic plot twist
+*LUK:	no! no! that’s not true! that’s impossible! [=! shocked]
+*DAR:	search your feelings
+*DAR:	you know it to be true!
+*LUK:	NOOOOOOO! NOOOOOOOO!!!
+@End
