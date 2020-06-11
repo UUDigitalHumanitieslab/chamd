@@ -623,10 +623,10 @@ class ChatReader:
         linetoprocess = ""
         current_line = cast(Optional[ChatLine], None)
         # dependent tier
-        current_tier = cast(Optional[ChatTier], None)
+        current_tiers = cast(List[Optional[ChatTier]], [])
 
         def process_line_steps(linetoprocess: str):
-            nonlocal uttid, prev_header, current_line, current_tier, file_metadata, metadata
+            nonlocal uttid, prev_header, current_line, current_tiers, file_metadata, metadata
             for step in processline(base,
                                     filename,
                                     entrystartno,
@@ -641,17 +641,20 @@ class ChatReader:
                 if type(step) is ChatLine:
                     if current_line != None:
                         known_line = cast(ChatLine, current_line)
-                        if current_tier != None:
-                            known_tier = cast(ChatTier, current_tier)
-                            known_line.tiers[known_tier.id] = known_tier
-                            current_tier = None
+                        if current_tiers != []:
+                            known_tiers = cast(List[ChatTier], current_tiers)
+                            for kt in known_tiers:
+                                known_line.tiers[kt.id] = kt
+                                current_tiers = []
+
                         chat_file.lines.append(known_line)
                     current_line = step
                     uttid = step.uttid + 1
                 elif type(step) is AppendLine:
-                    if current_tier != None:
-                        cast(ChatTier, current_tier).text += '\n' + \
-                            step.text.lstrip()
+                    if current_tiers != []:
+                        for ct in current_tiers:
+                            cast(ChatTier, ct).text += '\n' + \
+                                step.text.lstrip()
                     else:
                         cast(ChatLine, current_line).text += '\n' + \
                             step.text.lstrip()
@@ -661,7 +664,7 @@ class ChatReader:
                             chat_file.metadata[name] = value
 
                 if type(step) is ChatTier:
-                    current_tier = step
+                    current_tiers.append(step)
 
                 if type(step) is ChatHeader:
                     prev_header = True
@@ -691,9 +694,10 @@ class ChatReader:
             raise Exception("Problem parsing {0}:{1}".format(filename, lineno))
         if current_line != None:
             known_line = cast(ChatLine, current_line)
-            if current_tier != None:
-                known_tier = cast(ChatTier, current_tier)
-                known_line.tiers[known_tier.id] = known_tier
+            if current_tiers != []:
+                known_tiers = cast(List[ChatTier], current_tiers)
+                for kt in known_tiers:
+                    known_line.tiers[kt.id] = kt
             chat_file.lines.append(known_line)
 
         return chat_file

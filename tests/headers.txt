@@ -94,25 +94,27 @@ if only you knew the power of the Dark Side
 ##META int uttendlineno = 16
 ##META int uttid = 9
 ##META int uttstartlineno = 16
+##META text addressee = spoiler: his son
 ##META text comment = Kenobi
+##META text xsid = 42
 Obi-Wan never told you what happened to your father
 
 
 ##META text origutt = he told me enough!
 ##META text parsefile = Unknown_corpus_headers_u00000000010.xml
 ##META text speaker = LUK
-##META int uttendlineno = 18
+##META int uttendlineno = 20
 ##META int uttid = 10
-##META int uttstartlineno = 18
+##META int uttstartlineno = 20
 he told me enough !
 
 
 ##META text origutt = he told me you killed him!
 ##META text parsefile = Unknown_corpus_headers_u00000000011.xml
 ##META text speaker = LUK
-##META int uttendlineno = 19
+##META int uttendlineno = 21
 ##META int uttid = 11
-##META int uttstartlineno = 19
+##META int uttstartlineno = 21
 he told me you killed him !
 
 
@@ -120,9 +122,9 @@ he told me you killed him !
 ##META text origutt = no, I am your father.
 ##META text parsefile = Unknown_corpus_headers_u00000000012.xml
 ##META text speaker = DAR
-##META int uttendlineno = 20
+##META int uttendlineno = 22
 ##META int uttid = 12
-##META int uttstartlineno = 20
+##META int uttstartlineno = 22
 no , I am your father .
 
 
@@ -130,9 +132,9 @@ no , I am your father .
 ##META text parsefile = Unknown_corpus_headers_u00000000013.xml
 ##META text situation = Dramatic plot twist
 ##META text speaker = LUK
-##META int uttendlineno = 22
+##META int uttendlineno = 24
 ##META int uttid = 13
-##META int uttstartlineno = 22
+##META int uttstartlineno = 24
 no ! no ! that’s not true ! that’s impossible !
 
 
@@ -141,9 +143,9 @@ no ! no ! that’s not true ! that’s impossible !
 ##META text parsefile = Unknown_corpus_headers_u00000000014.xml
 ##META text situation = Dramatic plot twist
 ##META text speaker = DAR
-##META int uttendlineno = 23
+##META int uttendlineno = 25
 ##META int uttid = 14
-##META int uttstartlineno = 23
+##META int uttstartlineno = 25
 search your feelings
 
 
@@ -152,9 +154,9 @@ search your feelings
 ##META text parsefile = Unknown_corpus_headers_u00000000015.xml
 ##META text situation = Dramatic plot twist
 ##META text speaker = DAR
-##META int uttendlineno = 24
+##META int uttendlineno = 26
 ##META int uttid = 15
-##META int uttstartlineno = 24
+##META int uttstartlineno = 26
 you know it to be true !
 
 
@@ -162,9 +164,9 @@ you know it to be true !
 ##META text parsefile = Unknown_corpus_headers_u00000000016.xml
 ##META text situation = Dramatic plot twist
 ##META text speaker = LUK
-##META int uttendlineno = 25
+##META int uttendlineno = 27
 ##META int uttid = 16
-##META int uttstartlineno = 25
+##META int uttstartlineno = 27
 NOOOOOOO ! NOOOOOOOO ! ! !
 
 

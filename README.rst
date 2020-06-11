@@ -4,6 +4,9 @@
 Conversion and cleaning of CHILDES CHA files into PaQu Plaintext
 Metadata Format (to convert to Alpino).
 
+`pypi chamd
+<https://pypi.org/project/chamd/>`_
+
 .. code:: bash
 
    pip install chamd
