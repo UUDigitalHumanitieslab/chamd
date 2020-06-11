@@ -63,7 +63,7 @@ def combine(str1, str2):
 
 
 def despace(str):
-    # remvove leading and trailing spaces
+    # remove leading and trailing spaces
     # replace other sequences of spaces by underscore
     result = str.strip()
     result = re.sub(r' +', r'_', result)
