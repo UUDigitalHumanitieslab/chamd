@@ -272,6 +272,7 @@ hoeveelste is het vandaag , eh de .
 ##META int uttendlineno = 24
 ##META int uttid = 13
 ##META int uttstartlineno = 24
+##META text xexe = another example
 ##META text xfoo = multi line
 nee joh .
 
