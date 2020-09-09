@@ -6,4 +6,4 @@ python:
 
 script:
     - python -m unittest discover tests/
-
+    - if [[ $TRAVIS_PYTHON_VERSION != 3.5 ]]; then pip install mypy; mypy **/*.py; fi

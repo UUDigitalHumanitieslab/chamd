@@ -34,7 +34,7 @@ defaultoutext = ".txt"
 
 
 def main(args=None):
-    global metadata, outfile, logfile, counter, cleanfile
+    global metadata, logfile, counter, cleanfile
 
     """
     Main entry point.
@@ -143,6 +143,8 @@ def main(args=None):
                 print('\n\n', file=outfile)
                 for line in chat.lines:
                     for _, item in sorted(line.metadata.items()):
+                        print(item, file=outfile)
+                    for _, item in sorted(line.tiers.items()):
                         print(item, file=outfile)
                     print(line.text, file=outfile)
                     print('\n', file=outfile)
