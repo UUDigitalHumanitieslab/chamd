@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import sys
 import re
-import os
 
 baseversion = "0"
 subversion = "04"
@@ -23,7 +21,7 @@ lctr = 0
 # hexformat = '{0:#06X}'
 hexformat = '\\u{0:04X}'
 
-#scopestr = r'<([^<>]*)>\s*'
+# scopestr = r'<([^<>]*)>\s*'
 
 scopestr = r'<(([^<>]|\[<\]|\[>\])*)>\s*'
 
@@ -54,25 +52,25 @@ plusdotdot = re.compile(r'\+\.\.')
 ltstr = r'\[<\]'
 ltre = re.compile(ltstr)
 
-#ltre1 = re.compile(scoped(ltstr))
-#ltre2 = re.compile(ltstr)
+# ltre1 = re.compile(scoped(ltstr))
+# ltre2 = re.compile(ltstr)
 chatword = r'(&[-+=]?)?[\w\(\):+]+'
 doubleslashstr = r'\[//\]'
-wdoubleslash = chatword+r'\s*'+doubleslashstr
+wdoubleslash = chatword + r'\s*' + doubleslashstr
 doubleslash1 = re.compile(scoped(doubleslashstr))
 doubleslash2 = re.compile(doubleslashstr)
 wdoubleslash1 = re.compile(wdoubleslash)
 exclam2 = re.compile(r'\[!\]')
 exclam1 = re.compile(r'<([^>]*)>\s*\[!\]')
 slash = r'\[/\]'
-wslash = chatword+r'\s*'+slash
+wslash = chatword + r'\s*' + slash
 slash2 = re.compile(scoped(slash))
 slash1 = re.compile(slash)
 wslash1 = re.compile(wslash)
 gtstr = r'\[>\]'
 gtre = re.compile(gtstr)
-#gtre1 = re.compile(scoped(gtstr))
-#gtre2 = re.compile(gtstr)
+# gtre1 = re.compile(scoped(gtstr))
+# gtre2 = re.compile(gtstr)
 qstr = r'\[\?\]'
 qre1 = re.compile(scoped(qstr))
 qre2 = re.compile(qstr)
@@ -91,15 +89,16 @@ squarebracketstwee = re.compile(r'\[twee\]')
 interpunction = re.compile(r'([,!?“”"]|\.$)')
 whitespace = re.compile(r'\s+')
 
-#nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
-#nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
+# nesting = re.compile(r'<([^<>]*(<[^<>]*>(\[>\]|\[<\]|[^<>])*)+)>')
+# nesting = re.compile(r'<(([^<>]|\[<\]|\[>\])*)>')
 
-#content = r'(([^<>])|\[<\]|\[>\])*'
-#content = r'(([^<>])|(\[<\])|(\[>\]))*'
-#content = r'((\[<\])|(\[>\])|([^<>]))*'
-#nested = r'(<' + content + r'>' + content + r')+'
-#neststr = r'(<' + content + nested + r'>)'
-#nesting = re.compile(neststr)
+# content = r'(([^<>])|\[<\]|\[>\])*'
+# content = r'(([^<>])|(\[<\])|(\[>\]))*'
+# content = r'((\[<\])|(\[>\])|([^<>]))*'
+# nested = r'(<' + content + r'>' + content + r')+'
+# neststr = r'(<' + content + nested + r'>)'
+# nesting = re.compile(neststr)
+
 
 def bracket(str):
     result = '(' + str + ')'
@@ -129,13 +128,14 @@ scopedtimes = re.compile(scoped(timesstr))
 scopedinlinecom = re.compile(r'<([^<>]*)>\s*\[\% [^\]]*\]')
 inlinecom = re.compile(r'\[\% [^\]]*\]')
 tripleslash = r'\[///\]'
-wtripleslash = chatword+r'\s*'+tripleslash
+wtripleslash = chatword + r'\s*' + tripleslash
 
 reformul = re.compile(tripleslash)
 scopedreformul = re.compile(scoped(tripleslash))
 wreformul = re.compile(wtripleslash)
 endquote = re.compile(r'\+"/\.')
-errormarkstr = r'\[\*[^\]]*\]'   # adapted to deal with the codings in CHAT manual p. 103/104
+# adapted to deal with the codings in CHAT manual p. 103/104
+errormarkstr = r'\[\*[^\]]*\]'
 errormark2 = re.compile(errormarkstr)
 errormark1 = re.compile(scoped(errormarkstr))
 dependenttier = re.compile(r'\[%(act|add|gpx|int|sit|spe):[^]]*\]')
@@ -151,6 +151,7 @@ timealign = re.compile(r'\u0015[0123456789_ ]+\u0015')
 segmentrep = re.compile('\u21AB[^\u21AB]*\u21AB')
 blocking = re.compile('\u2260')
 internalpause = re.compile('\^')
+
 
 def check_suspect_chars(newline):
     invalid = checkpattern.search(newline) or pluspattern.search(newline)
@@ -169,11 +170,11 @@ def checkline(line, newline, outfilename, lineno, logfile):
         print('charcodes=<{}>'.format(thecodes), file=logfile)
 
 
-def cleantext(str,repkeep):
+def cleantext(str, repkeep):
     result = str
 
     # if times.search(result):
-    #print('[x ...] found, line={}'.format(result), file=logfile)
+    # print('[x ...] found, line={}'.format(result), file=logfile)
 
 # page references are to MacWhinney chat manual version 21 april 2015
 
@@ -187,10 +188,10 @@ def cleantext(str,repkeep):
         b = match.start(1) + 1
         e = match.end(1) - 1
         midstr = result[b:e]
-        newmidstr = cleantext(midstr,repkeep)
+        newmidstr = cleantext(midstr, repkeep)
         leftstr = result[:b]
         rightstr = result[e:]
-        result = leftstr+newmidstr+rightstr
+        result = leftstr + newmidstr + rightstr
 
 
 # remove scoped times <...> [x ...] keeping the ... between <> not officially defined
@@ -228,7 +229,7 @@ def cleantext(str,repkeep):
     if repkeep:
         result = reformul.sub(space, result)
     else:
-        result = wreformul.sub(eps,result)
+        result = wreformul.sub(eps, result)
 
 # remover errormark1 [*] and preceding <>
     result = errormark1.sub(r'\1 ', result)
@@ -278,8 +279,6 @@ def cleantext(str,repkeep):
     result = gtreplre2.sub(space, result)
 
 
-
-
 # remove [//] keep preceding part between <>, drop <> or delete <...> depending on repkeep
     if repkeep:
         result = doubleslash1.sub(r'\1', result)
@@ -291,7 +290,7 @@ def cleantext(str,repkeep):
     if repkeep:
         result = doubleslash2.sub(eps, result)
     else:
-        result = wdoubleslash1.sub(eps,result)
+        result = wdoubleslash1.sub(eps, result)
 
 # remove [!] and <> around preceding text    p.68
     result = exclam1.sub(r'\1', result)
@@ -310,7 +309,7 @@ def cleantext(str,repkeep):
     if repkeep:
         result = slash1.sub(eps, result)
     else:
-        result = wslash1.sub(eps,result)
+        result = wslash1.sub(eps, result)
 
 #    result = re.sub(r'\[<\]', '', result)
 
@@ -408,7 +407,7 @@ def cleantext(str,repkeep):
 # surround interpunction with whitespace
     result = interpunction.sub(lambda m: ' ' + m.group(0) + ' ', result)
 
-# remove superfluous spaces etc. this also removes CR etc    
+# remove superfluous spaces etc. this also removes CR etc
     result = whitespace.sub(' ', result)
     result = result.strip()
     return(result)
@@ -433,18 +432,18 @@ def str2codes(str):
         result.append((curchar, curcode))
     return(result)
 
-	
+
 def removesuspects(str):
-        result1 = re.sub(checkpattern, space, str)
-        result2 = re.sub(pluspattern1, r'\1', result1)
-        result = re.sub(pluspattern2, r'\1', result2)
-        return result
-		
-        
-checkpattern = re.compile(r'[][\(\)&%@/=><_^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ·\u22A5\u00B7\u0001\u2260\u21AB]')
+    result1 = re.sub(checkpattern, space, str)
+    result2 = re.sub(pluspattern1, r'\1', result1)
+    result = re.sub(pluspattern2, r'\1', result2)
+    return result
+
+
+checkpattern = re.compile(
+    r'[][\(\)&%@/=><_^~↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊⌋∆∇⁎⁇°◉▁▔☺∬Ϋ·\u22A5\u00B7\u0001\u2260\u21AB]')
 # + should not occur except as compound marker black+board
 # next one split up in order to do substitutions
 pluspattern = re.compile(r'(\W)\+|\+(\W)')
 pluspattern1 = re.compile(r'(\W)\+')
 pluspattern2 = re.compile(r'\+(\W)')
-
