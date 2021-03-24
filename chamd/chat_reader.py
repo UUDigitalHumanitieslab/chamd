@@ -274,17 +274,16 @@ class AppendLine:
 
 
 class ChatHeader:
-    pass
+    def __init__(self, metadata):
+        self.headerdata = metadata
 
 
 def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: Dict[str, str], metadata, uttid, prev_header: bool, infilename, repkeep):
     global errors
     startchar = theline[0:1]
     if startchar == mdchar:
-        # to implement
         treat_mdline(lineno, theline, metadata, infilename)
-        yield ChatHeader()
-#        print(metadata, file=mdlog)
+        yield ChatHeader(metadata)
     else:
         if prev_header:
             yield ChatHeadersList(list(get_headermd(metadata)))
@@ -576,10 +575,12 @@ class ChatFile:
     def __init__(self,
                  charmap: Dict[str, str] = None,
                  metadata: Dict[str, MetaValue] = None,
-                 lines: List[ChatLine] = None):
+                 lines: List[ChatLine] = None,
+                 headers: Dict = None):
         self.charmap = charmap or {}
         self.metadata = metadata or {}
         self.lines = lines or []
+        self.headers = headers or {}
 
 
 class ChatReader:
@@ -668,6 +669,8 @@ class ChatReader:
 
                 if type(step) is ChatHeader:
                     prev_header = True
+                    if current_line == None:
+                        chat_file.headers.update(step.headerdata)
                 else:
                     prev_header = False
 
