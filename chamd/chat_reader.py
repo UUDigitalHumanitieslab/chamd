@@ -5,13 +5,10 @@ Created on Wed Dec  7 15:53:51 2016
 """
 
 
-from optparse import OptionParser
 from typing import cast, Dict, List, Optional
 import datetime
 import os
-import sys
 import re
-import csv
 from .cleanCHILDESMD import cleantext, check_suspect_chars, removesuspects
 
 # functions
@@ -78,7 +75,7 @@ def get_charencoding(str):
     if str[0:1] == mdchar:
         result = str[1:0]
     else:
-        result is None
+        result = None
     return(result)
 
 
@@ -93,7 +90,8 @@ def getcorpus(metadata):
 
 def getmonths(age):
     # input format is 3;6.14 (y;m.d)
-    # also accept y.m.d and y;m;d and y.m;d with a warning or any separators for that matter
+    # also accept y.m.d and y;m;d and y.m;d with a warning
+    # or any separators for that matter
     cleanage = clean(age)
     errorfound = False
     warningneeded = False
@@ -208,7 +206,7 @@ def get_headermd(metadata):
     for el in sorted(metadata):
         entry = metadata[el]
         value = get_metavalue(el, entry)
-        if value != None:
+        if value is not None:
             yield value
 
 
@@ -218,7 +216,7 @@ def get_uttmd(file_metadata, metadata):
         entry = metadata[el]
         if el not in file_metadata or entry != file_metadata[el]:
             value = get_metavalue(el, entry)
-            if value != None:
+            if value is not None:
                 yield value
 
     curcode = metadata['speaker']
@@ -231,7 +229,7 @@ def get_uttmd(file_metadata, metadata):
             for el in sorted(metadata['id'][curcode]):
                 entry = metadata['id'][curcode][el]
                 value = get_metavalue(el, entry)
-                if value != None:
+                if value is not None:
                     yield value
                 else:
                     errors.append('get_uttmd: unknown type for {}={}'.format(
@@ -274,17 +272,16 @@ class AppendLine:
 
 
 class ChatHeader:
-    pass
+    def __init__(self, metadata):
+        self.headerdata = metadata
 
 
 def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: Dict[str, str], metadata, uttid, prev_header: bool, infilename, repkeep):
     global errors
     startchar = theline[0:1]
     if startchar == mdchar:
-        # to implement
         treat_mdline(lineno, theline, metadata, infilename)
-        yield ChatHeader()
-#        print(metadata, file=mdlog)
+        yield ChatHeader(metadata)
     else:
         if prev_header:
             yield ChatHeadersList(list(get_headermd(metadata)))
@@ -422,7 +419,6 @@ def treatparticipants(entrylist, metadata, infilename):
     global errors
     for el in entrylist:
         ellist = el.split()
-        ctr = 0
         code = ""
         name = ""
         role = ""
@@ -576,10 +572,12 @@ class ChatFile:
     def __init__(self,
                  charmap: Dict[str, str] = None,
                  metadata: Dict[str, MetaValue] = None,
-                 lines: List[ChatLine] = None):
+                 lines: List[ChatLine] = None,
+                 headers: Dict = None):
         self.charmap = charmap or {}
         self.metadata = metadata or {}
         self.lines = lines or []
+        self.headers = headers or {}
 
 
 class ChatReader:
@@ -639,7 +637,7 @@ class ChatReader:
                                     filename,
                                     self.repkeep):
                 if type(step) is ChatLine:
-                    if current_line != None:
+                    if current_line is not None:
                         known_line = cast(ChatLine, current_line)
                         if current_tiers != []:
                             known_tiers = cast(List[ChatTier], current_tiers)
@@ -659,7 +657,7 @@ class ChatReader:
                         cast(ChatLine, current_line).text += '\n' + \
                             step.text.lstrip()
                 elif type(step) is ChatHeadersList:
-                    if current_line == None:
+                    if current_line is None:
                         for name, value in step.metadata.items():
                             chat_file.metadata[name] = value
 
@@ -668,6 +666,8 @@ class ChatReader:
 
                 if type(step) is ChatHeader:
                     prev_header = True
+                    if current_line is None:
+                        chat_file.headers.update(step.headerdata)
                 else:
                     prev_header = False
 
@@ -692,7 +692,7 @@ class ChatReader:
             process_line_steps(linetoprocess)
         except:
             raise Exception("Problem parsing {0}:{1}".format(filename, lineno))
-        if current_line != None:
+        if current_line is not None:
             known_line = cast(ChatLine, current_line)
             if current_tiers != []:
                 known_tiers = cast(List[ChatTier], current_tiers)
