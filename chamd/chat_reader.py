@@ -272,8 +272,10 @@ class AppendLine:
 
 
 class ChatHeader:
-    def __init__(self, metadata):
+    def __init__(self, metadata=None, line=None, linestartno=None):
         self.headerdata = metadata
+        self.line = line
+        self.linestartno = linestartno
 
 
 def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: Dict[str, str], metadata, uttid, prev_header: bool, infilename, repkeep):
@@ -281,7 +283,7 @@ def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadat
     startchar = theline[0:1]
     if startchar == mdchar:
         treat_mdline(lineno, theline, metadata, infilename)
-        yield ChatHeader(metadata)
+        yield ChatHeader(metadata, theline, lineno)
     else:
         if prev_header:
             yield ChatHeadersList(list(get_headermd(metadata)))
@@ -573,11 +575,13 @@ class ChatFile:
                  charmap: Dict[str, str] = None,
                  metadata: Dict[str, MetaValue] = None,
                  lines: List[ChatLine] = None,
-                 headers: Dict = None):
+                 header_metadata: Dict = None,
+                 headers: List[ChatHeader] = None):
         self.charmap = charmap or {}
         self.metadata = metadata or {}
         self.lines = lines or []
-        self.headers = headers or {}
+        self.header_metadata = header_metadata or {}
+        self.headers = headers or []
 
 
 class ChatReader:
@@ -667,7 +671,11 @@ class ChatReader:
                 if type(step) is ChatHeader:
                     prev_header = True
                     if current_line is None:
-                        chat_file.headers.update(step.headerdata)
+                        chat_file.header_metadata.update(step.headerdata)
+                        # Keep a record of the raw header for the purpose of reconstrucing CHAT file
+                        # Hacky, should also contain the parsed header data
+                        chat_file.headers.append(ChatHeader(
+                            line=step.line, linestartno=step.linestartno))
                 else:
                     prev_header = False
 
