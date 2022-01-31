@@ -48,7 +48,7 @@ phonfrag1 = re.compile(r'&=[\w:]+')
 phonfrag2 = re.compile(r'&[\w:]+')
 zerostr = re.compile(r'0(\w+)')
 barezero = re.compile(r'0')
-plusdotdot = re.compile(r'\+\.\.')
+plusdot3 = re.compile(r'\+\.\.\.')
 ltstr = r'\[<\]'
 ltre = re.compile(ltstr)
 
@@ -262,8 +262,8 @@ def cleantext(str, repkeep):
 #    result = re.sub(r'yyy', '', result)
 
 
-# remove +..  p. 63
-    result = plusdotdot.sub(eps, result)
+# remove +...  p. 63
+    result = plusdot3.sub(eps, result)
 
 
 # remove [<] and preceding <> on purpose before [//]
