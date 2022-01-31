@@ -5,12 +5,11 @@ Created on Wed Dec  7 15:53:51 2016
 """
 
 
-from optparse import OptionParser
-import datetime
+import csv
 import os
 import sys
-import re
-import csv
+from optparse import OptionParser
+
 from .chat_reader import ChatReader
 
 
@@ -42,12 +41,6 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    baseversion = "0"
-    subversion = "04"
-    version = baseversion + "." + subversion
-    exactlynow = datetime.datetime.now()
-    now = exactlynow.replace(microsecond=0).isoformat()
-
     parser = OptionParser()
     parser.add_option("-f", "--file", dest="filename", default="",
                       help="process the given file (default: None)")
@@ -61,12 +54,12 @@ def main(args=None):
     parser.add_option("--cleanfilename",
                       dest="cleanfilename", default="",
                       help="file to write processed utterances to")
-    parser.add_option("--exts", dest="exts",  default=chaexts,
+    parser.add_option("--exts", dest="exts", default=chaexts,
                       help="Extensions of the files to be processed")
-    parser.add_option("--outext", dest="outext",  default=defaultoutext,
+    parser.add_option("--outext", dest="outext", default=defaultoutext,
                       help="Extension of the processed files")
     parser.add_option("--verbose", dest="verbose", action="store_true",
-                      default=False,  help="show files being processed (default=False)")
+                      default=False, help="show files being processed (default=False)")
     parser.add_option("--outpath",
                       dest="outpath", default=".",
                       help="path where the processed files will be put")
@@ -118,7 +111,7 @@ def main(args=None):
 
             if options.verbose:
                 print("processing {}...".format(fullname), file=logfile)
-    #        mdlog = open('mdlog.txt', 'w', encoding='utf8')
+            # mdlog = open('mdlog.txt', 'w', encoding='utf8')
             baseext = os.path.basename(fullname)
             (base, ext) = os.path.splitext(baseext)
             absinpath = os.path.abspath(options.path)
@@ -128,9 +121,9 @@ def main(args=None):
             reloutpath = os.path.relpath(fullinpath, start=absinpath)
             outfullpath = os.path.join(absoutpath, lastfolder, reloutpath)
 
-            #print('fullinpath=<{}>'.format(fullinpath), file=sys.stderr)
-            #print('outfullpath=<{}>'.format(outfullpath), file=sys.stderr)
-            #print('', file=sys.stderr)
+            # print('fullinpath=<{}>'.format(fullinpath), file=sys.stderr)
+            # print('outfullpath=<{}>'.format(outfullpath), file=sys.stderr)
+            # print('', file=sys.stderr)
 
             if not os.path.isdir(outfullpath):
                 os.makedirs(outfullpath)
@@ -152,7 +145,7 @@ def main(args=None):
             for error in reader.errors:
                 print(error, file=logfile)
     hexformat = '{0:#06X}'
-    #hexformat = "0x%0.4X"
+    # hexformat = "0x%0.4X"
     with open(charmapfilename, 'w', encoding='utf8') as charmapfile:
         charmapwriter = csv.writer(charmapfile, delimiter=tab, quotechar=myquotechar,
                                    quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
@@ -168,7 +161,8 @@ def main(args=None):
 
     # and convert it to LASSY XML meta elements and integrate with a Alpino-parsed  XML-file
 
-
     # and convert it to FoliA
+
+
 if __name__ == "__main__":
     main()
