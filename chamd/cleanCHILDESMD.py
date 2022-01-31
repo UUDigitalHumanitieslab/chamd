@@ -150,7 +150,7 @@ chat_ca_syms = re.compile('[↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊�
 timealign = re.compile(r'\u0015[0123456789_ ]+\u0015')
 segmentrep = re.compile('\u21AB[^\u21AB]*\u21AB')
 blocking = re.compile('\u2260')
-internalpause = re.compile('\^')
+internalpause = re.compile(r'\^')
 
 
 def check_suspect_chars(newline):

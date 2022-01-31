@@ -119,7 +119,7 @@ def getmonths(age):
         if month < 0 or month > 11:
             errors.append("Warning: Illegal month value in age(0<=m<=11): {}".format(
                 cleanage))
-        result = 12*year + month
+        result = (12 * year) + month
     else:
         result = 0
         errors.append("Error: uninterpretable age value: {}. No months attribute computed".format(
@@ -155,7 +155,7 @@ class MetaValue:
     def __str__(self):
         try:
             return space.join([metakw, self.value_type, self.uel, "=", self.text])
-        except:
+        except Exception:
             raise Exception([self.uel, self.text])
 
 
@@ -278,7 +278,9 @@ class ChatHeader:
         self.linestartno = linestartno
 
 
-def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadata: Dict[str, str], metadata, uttid, prev_header: bool, infilename, repkeep):
+def processline(base, cleanfilename, entrystartno,
+                lineno, theline, file_metadata: Dict[str, str],
+                metadata, uttid, prev_header: bool, infilename, repkeep):
     global errors
     startchar = theline[0:1]
     if startchar == mdchar:
@@ -301,7 +303,7 @@ def processline(base, cleanfilename, entrystartno, lineno, theline, file_metadat
             if endspk < 0:
                 errors.append('error in entry  on line(s) {}-{}: {}'.format(entrystartno,
                                                                             lineno, theline))
-            entry = theline[endspk+2:]
+            entry = theline[endspk + 2:]
             cleanentry = cleantext(entry, repkeep)
             chat_line = ChatLine(uttid, entry, cleanentry)
             (valid, charcodes) = check_suspect_chars(cleanentry)
@@ -326,7 +328,7 @@ charcodes={}
             yield chat_line
         elif startchar == dependent_tier_char:
             colon = theline.find(':')
-            yield ChatTier(theline[1:colon], theline[colon+1:].lstrip())
+            yield ChatTier(theline[1:colon], theline[colon + 1:].lstrip())
         else:
             yield AppendLine(theline)
 
@@ -359,7 +361,7 @@ def treat_mdline(lineno, headerline, metadata, infilename):
 
     else:
         headername = headerline[1:headernameend]
-        entry = headerline[headernameend+1:]
+        entry = headerline[headernameend + 1:]
         cleanentry = clean(entry)
         entrylist = cleanentry.split(',')
         cleanheadername = clean(headername)
@@ -506,7 +508,7 @@ def treatutt(line, metadata):
     endspk = line.find(':')
     code = line[1:endspk]
     metadata["speaker"] = code
-    metadata['origutt'] = line[endspk+2:]
+    metadata['origutt'] = line[endspk + 2:]
 
 
 def updateCharMap(str, charmap):
@@ -533,7 +535,7 @@ dateformat1 = "%d-%b-%Y"
 dateformat2 = "%d-%m-%Y"
 
 
-simpleheadernames = ['pid',  "transcriber",  "coder",  "date",  "location",
+simpleheadernames = ['pid', "transcriber", "coder", "date", "location",
                      "situation", 'number', 'interaction type', "activities",
                      'comment', 'bck', 'warning', 'transcription',
                      'time start', 'time duration', 'tape location', 'room layout',
@@ -547,7 +549,7 @@ seps = r'[-.,/;:_!~\\]'
 digits = r'[0-9]+'
 digit2 = r'[0-9]{1,2}'
 optdays = r'(' + digits + r')?'
-optsepdays = '(\.' + optdays + r')?'
+optsepdays = r'(\.' + optdays + r')?'
 optmonths = '(' + digit2 + optsepdays + ')?'
 optsepmonths = '(;' + optmonths + ')?'
 agere = '^' + digits + optsepmonths + '$'
@@ -698,7 +700,7 @@ class ChatReader:
             # deal with the last line
             entrystartno = lineno - contlinecount
             process_line_steps(linetoprocess)
-        except:
+        except Exception:
             raise Exception("Problem parsing {0}:{1}".format(filename, lineno))
         if current_line is not None:
             known_line = cast(ChatLine, current_line)
