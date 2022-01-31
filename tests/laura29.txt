@@ -252,7 +252,7 @@ eve daa in .
 ##META int uttendlineno = 23
 ##META int uttid = 12
 ##META int uttstartlineno = 23
-hoeveelste is het vandaag , eh de .
+hoeveelste is het vandaag , eh de
 
 
 ##META text SES = 
@@ -294,7 +294,7 @@ nee joh .
 ##META int uttendlineno = 27
 ##META int uttid = 14
 ##META int uttstartlineno = 27
-Laura , ik heb nu .
+Laura , ik heb nu
 
 
 ##META text SES = 
@@ -1689,7 +1689,7 @@ oh , , mocht die dat niet , jam opeten , nee ?
 ##META int uttendlineno = 95
 ##META int uttid = 82
 ##META int uttstartlineno = 95
-xxx , mama s .
+xxx , mama s
 
 
 ##META text SES = 
@@ -2242,7 +2242,7 @@ zet ook maar weer vlug terug .
 ##META int uttendlineno = 123
 ##META int uttid = 109
 ##META int uttstartlineno = 123
-is e nie .
+is e nie
 
 
 ##META text SES = 
@@ -5505,7 +5505,7 @@ ik is e , ik is van mij .
 ##META int uttendlineno = 288
 ##META int uttid = 269
 ##META int uttstartlineno = 288
-ik ga huis make foor .
+ik ga huis make foor
 
 
 ##META text SES = 
@@ -7228,7 +7228,7 @@ e mij .
 ##META int uttendlineno = 372
 ##META int uttid = 353
 ##META int uttstartlineno = 372
-ik ga ook .
+ik ga ook
 
 
 ##META text SES = 
@@ -7658,7 +7658,7 @@ oh , dat is een ander toetje .
 ##META int uttendlineno = 393
 ##META int uttid = 374
 ##META int uttstartlineno = 393
-ik dacht dat je gezicht .
+ik dacht dat je gezicht
 
 
 ##META text SES = 
@@ -7927,7 +7927,7 @@ ja .
 ##META int uttendlineno = 406
 ##META int uttid = 387
 ##META int uttstartlineno = 406
-is .
+is
 
 
 ##META text SES = 
@@ -10545,7 +10545,7 @@ ja .
 ##META int uttendlineno = 538
 ##META int uttid = 515
 ##META int uttstartlineno = 538
-ga jij dan even met je schaartje zoeken en je .
+ga jij dan even met je schaartje zoeken en je
 
 
 ##META text SES = 
@@ -11521,7 +11521,7 @@ even kijken hoor .
 ##META int uttendlineno = 589
 ##META int uttid = 563
 ##META int uttstartlineno = 589
-ja , maar het is andere lijm als .
+ja , maar het is andere lijm als
 
 
 ##META text SES = 
@@ -11824,7 +11824,7 @@ of niet ?
 ##META int uttendlineno = 605
 ##META int uttid = 578
 ##META int uttstartlineno = 605
-moet je met het kwastje .
+moet je met het kwastje
 
 
 ##META text SES = 
@@ -14788,7 +14788,7 @@ dat is toch niet verven , das lijmen .
 ##META int uttendlineno = 751
 ##META int uttid = 724
 ##META int uttstartlineno = 751
-dit kwastje kun je ook .
+dit kwastje kun je ook
 
 
 ##META text SES = 
@@ -15905,7 +15905,7 @@ doe maar niet aan je vingers , plakken .
 ##META int uttendlineno = 806
 ##META int uttid = 779
 ##META int uttstartlineno = 806
-zullen we straks een ander velletje nemen , of eh .
+zullen we straks een ander velletje nemen , of eh
 
 
 ##META text SES = 
@@ -16372,7 +16372,7 @@ ik kan wel draaie .
 ##META int uttendlineno = 829
 ##META int uttid = 802
 ##META int uttstartlineno = 829
-ik kan wel .
+ik kan wel
 
 
 ##META text SES = 
@@ -17145,7 +17145,7 @@ zo .
 ##META int uttendlineno = 867
 ##META int uttid = 840
 ##META int uttstartlineno = 867
-plak maar zo een paar stukjes op hoor , want .
+plak maar zo een paar stukjes op hoor , want
 
 
 ##META text SES = 
@@ -17427,7 +17427,7 @@ ja , ja dan moet je naar de dokter toe .
 ##META int uttendlineno = 881
 ##META int uttid = 854
 ##META int uttstartlineno = 881
-de dokter is .
+de dokter is
 
 
 ##META text SES = 
@@ -17791,7 +17791,7 @@ je hebt vandaag weer prachtige zinnen gezegd .
 ##META int uttendlineno = 899
 ##META int uttid = 872
 ##META int uttstartlineno = 899
-zo van , “ is , is is huizen niet ” , zei je , en eh .
+zo van , “ is , is is huizen niet ” , zei je , en eh
 
 
 ##META text SES = 

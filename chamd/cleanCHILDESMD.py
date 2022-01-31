@@ -48,7 +48,7 @@ phonfrag1 = re.compile(r'&=[\w:]+')
 phonfrag2 = re.compile(r'&[\w:]+')
 zerostr = re.compile(r'0(\w+)')
 barezero = re.compile(r'0')
-plusdotdot = re.compile(r'\+\.\.')
+plusdot3 = re.compile(r'\+\.\.\.')
 ltstr = r'\[<\]'
 ltre = re.compile(ltstr)
 
@@ -150,7 +150,7 @@ chat_ca_syms = re.compile('[↓↑↑↓⇗↗→↘⇘∞≈≋≡∙⌈⌉⌊�
 timealign = re.compile(r'\u0015[0123456789_ ]+\u0015')
 segmentrep = re.compile('\u21AB[^\u21AB]*\u21AB')
 blocking = re.compile('\u2260')
-internalpause = re.compile('\^')
+internalpause = re.compile(r'\^')
 
 
 def check_suspect_chars(newline):
@@ -262,8 +262,8 @@ def cleantext(str, repkeep):
 #    result = re.sub(r'yyy', '', result)
 
 
-# remove +..  p. 63
-    result = plusdotdot.sub(eps, result)
+# remove +...  p. 63
+    result = plusdot3.sub(eps, result)
 
 
 # remove [<] and preceding <> on purpose before [//]
