@@ -1,5 +1,4 @@
-.. image:: https://travis-ci.org/UUDigitalHumanitieslab/chamd.svg?branch=master
-    :target: https://travis-ci.org/UUDigitalHumanitieslab/chamd
+[![Python package](https://github.com/UUDigitalHumanitieslab/chamd/actions/workflows/python-package.yml/badge.svg?branch=develop)](https://github.com/UUDigitalHumanitieslab/chamd/actions/workflows/python-package.yml)
 
 Conversion and cleaning of CHILDES CHA files into PaQu Plaintext
 Metadata Format (to convert to Alpino).

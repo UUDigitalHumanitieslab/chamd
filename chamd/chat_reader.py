@@ -686,7 +686,7 @@ class ChatReader:
                 prevlineno = lineno
                 lineno += 1
                 startchar = line[0:1]
-                if startchar in ['\t']:
+                if startchar in ['\t', ' ']:
                     linetoprocess = combine(linetoprocess, line)
                     contlinecount += 1
                 elif startchar in [mdchar, uttchar, dependent_tier_char, space]:
