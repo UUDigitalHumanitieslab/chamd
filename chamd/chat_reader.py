@@ -685,8 +685,11 @@ class ChatReader:
             for line in content.splitlines():
                 prevlineno = lineno
                 lineno += 1
-                if line.lstrip()[0] == dependent_tier_char:
-                    line = re.sub(r'^(\s+)?%', '%', line)
+                try:
+                    if line.lstrip()[0] == dependent_tier_char:
+                        line = re.sub(r'^(\s+)?%', '%', line)
+                except IndexError:
+                    pass
                 startchar = line[0:1]
                 if startchar in ['\t', ' ']:
                     linetoprocess = combine(linetoprocess, line)
