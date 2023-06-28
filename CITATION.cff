@@ -1,0 +1,25 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: CHAMD
+message: Please cite this software using these metadata.
+type: software
+authors:
+  - given-names: Jan
+    family-names: Odijk
+    affiliation: Utrecht University
+    email: j.odijk@uu.nl
+  - given-names: Sheean
+    family-names: Spoel
+    email: s.j.j.spoel@uu.nl
+    affiliation: Utrecht University
+  - given-names: Jelte
+    family-names: van Boheemen
+    email: j.vanboheemen@uu.nl
+    affiliation: Utrecht University
+repository-code: 'https://github.com/UUDigitalHumanitieslab/chamd'
+abstract: >-
+  Conversion and cleaning of CHILDES CHA files into PaQu
+  Plaintext Metadata Format (to convert to Alpino).
+license: MIT
