@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
-with open('README.rst') as file:
+with open('README.md') as file:
     long_description = file.read()
 
 setup(
     name='chamd',
     python_requires='>=3.5, <4',
-    version='0.5.10',
+    version='0.5.11',
     description='Conversion and cleaning of CHILDES CHA files into PaQu Plaintext Metadata Format',
     long_description=long_description,
     author='Digital Humanities Lab, Utrecht University',
