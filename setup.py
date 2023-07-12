@@ -9,6 +9,7 @@ setup(
     version='0.5.11',
     description='Conversion and cleaning of CHILDES CHA files into PaQu Plaintext Metadata Format',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Digital Humanities Lab, Utrecht University',
     author_email='digitalhumanities@uu.nl',
     url='https://github.com/UUDigitalHumanitieslab/chamd',
