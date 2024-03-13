@@ -6,7 +6,7 @@ with open('README.md') as file:
 setup(
     name='chamd',
     python_requires='>=3.5, <4',
-    version='0.5.11',
+    version='0.5.12',
     description='Conversion and cleaning of CHILDES CHA files into PaQu Plaintext Metadata Format',
     long_description=long_description,
     long_description_content_type='text/markdown',

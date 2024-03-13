@@ -539,8 +539,8 @@ simpleheadernames = ['pid', "transcriber", "coder", "date", "location",
                      "situation", 'number', 'interaction type', "activities",
                      'comment', 'bck', 'warning', 'transcription',
                      'time start', 'time duration', 'tape location', 'room layout',
-                     'recording quality', 'number', 'media', 'session']
-simpleintheadernames = ['g', 'page']
+                     'recording quality', 'number', 'media', 'session', 'g', 'types']
+simpleintheadernames = ['page']
 simplecounterheaders = ['new episode']
 skipheadernames = ['exceptions']
 participantspecificheaders = ['birth of', 'birthplace of', 'l1 of', 'age of']

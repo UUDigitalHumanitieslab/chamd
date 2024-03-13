@@ -1,0 +1,1143 @@
+##META text charencoding = UTF8
+##META text childage = 5;09.
+##META int childmonths = 69
+##META text g = Ballerina-1
+##META text media = c01, audio, unlinked
+##META text pid = 11312/c-00025158-1
+##META text session = c01
+##META text types = cross, pictures, TD
+
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = <een meisje> [//] een ballerina <die gaat &-eh (..) de wa(ter)> [//] die gaat (he)t water over het gras heen doen.
+##META text parsefile = Asymmetries_c01_u00000000001.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 12
+##META int uttid = 1
+##META int uttstartlineno = 11
+een ballerina die gaat het water over het gras heen doen .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja goed zo.
+##META text parsefile = Asymmetries_c01_u00000000002.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 13
+##META int uttid = 2
+##META int uttstartlineno = 13
+ja goed zo .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = <ze haalt> [/] &-eh ze haalt het water.
+##META text parsefile = Asymmetries_c01_u00000000003.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 15
+##META int uttid = 3
+##META int uttstartlineno = 15
+ze haalt het water .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-3
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000004.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 17
+##META int uttid = 4
+##META int uttstartlineno = 17
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en ze geeft de bloemetjes water.
+##META text parsefile = Asymmetries_c01_u00000000005.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 18
+##META int uttid = 5
+##META int uttstartlineno = 18
+en ze geeft de bloemetjes water .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = maar er komt een zuster aan.
+##META text parsefile = Asymmetries_c01_u00000000006.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 19
+##META int uttid = 6
+##META int uttstartlineno = 19
+maar er komt een zuster aan .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-4
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze plukt een bloemetje.
+##META text parsefile = Asymmetries_c01_u00000000007.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 21
+##META int uttid = 7
+##META int uttstartlineno = 21
+ze plukt een bloemetje .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = +" die is voor jou +".
+##META text parsefile = Asymmetries_c01_u00000000008.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 23
+##META int uttid = 8
+##META int uttstartlineno = 23
+die is voor jou .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze doet (he)m in haar haar.
+##META text parsefile = Asymmetries_c01_u00000000009.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 25
+##META int uttid = 9
+##META int uttstartlineno = 25
+ze doet hem in haar haar .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze lacht.
+##META text parsefile = Asymmetries_c01_u00000000010.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 26
+##META int uttid = 10
+##META int uttstartlineno = 26
+ze lacht .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Ballerina-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en ze doet haar ogen dicht.
+##META text parsefile = Asymmetries_c01_u00000000011.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 27
+##META int uttid = 11
+##META int uttstartlineno = 27
+en ze doet haar ogen dicht .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-1
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = die piraat die heeft een voetbal (ge)pakt.
+##META text parsefile = Asymmetries_c01_u00000000012.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 29
+##META int uttid = 12
+##META int uttstartlineno = 29
+die piraat die heeft een voetbal gepakt .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-1
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000013.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 30
+##META int uttid = 13
+##META int uttstartlineno = 30
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij schopt (he)m in het water.
+##META text parsefile = Asymmetries_c01_u00000000014.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 32
+##META int uttid = 14
+##META int uttstartlineno = 32
+hij schopt hem in het water .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-2
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000015.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 33
+##META int uttid = 15
+##META int uttstartlineno = 33
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en hij lacht.
+##META text parsefile = Asymmetries_c01_u00000000016.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 34
+##META int uttid = 16
+##META int uttstartlineno = 34
+en hij lacht .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-2
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000017.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 35
+##META int uttid = 17
+##META int uttstartlineno = 35
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = nu [/] nu gaat ie [: hij] huilen.
+##META text parsefile = Asymmetries_c01_u00000000018.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 37
+##META int uttid = 18
+##META int uttstartlineno = 37
+nu gaat hij huilen .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en er komt er een &-eh meneertje aan.
+##META text parsefile = Asymmetries_c01_u00000000019.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 38
+##META int uttid = 19
+##META int uttstartlineno = 38
+en er komt er een meneertje aan .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ik weet niet hoe dat heet.
+##META text parsefile = Asymmetries_c01_u00000000020.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 39
+##META int uttid = 20
+##META int uttstartlineno = 39
+ik weet niet hoe dat heet .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-4
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = <en die> [/] en die hebt een net.
+##META text parsefile = Asymmetries_c01_u00000000021.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 41
+##META int uttid = 21
+##META int uttstartlineno = 41
+en die hebt een net .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-4
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en [/] en dan kijkt de piraat weer blij.
+##META text parsefile = Asymmetries_c01_u00000000022.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 42
+##META int uttid = 22
+##META int uttstartlineno = 42
+en dan kijkt de piraat weer blij .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = die haalt (.) die bal uit het water.
+##META text parsefile = Asymmetries_c01_u00000000023.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 44
+##META int uttid = 23
+##META int uttstartlineno = 44
+die haalt die bal uit het water .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij is weer blij.
+##META text parsefile = Asymmetries_c01_u00000000024.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 45
+##META int uttid = 24
+##META int uttstartlineno = 45
+hij is weer blij .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij lacht.
+##META text parsefile = Asymmetries_c01_u00000000025.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 47
+##META int uttid = 25
+##META int uttstartlineno = 47
+hij lacht .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Piraat-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en hij heeft z(ij)n voetbal weer in z(ij)n hand.
+##META text parsefile = Asymmetries_c01_u00000000026.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 48
+##META int uttid = 26
+##META int uttstartlineno = 48
+en hij heeft zijn voetbal weer in zijn hand .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-1
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = een prinses <die hee> [//] die neemt een ijsje (.) met een euro in de één.
+##META text parsefile = Asymmetries_c01_u00000000027.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 51
+##META int uttid = 27
+##META int uttstartlineno = 50
+een prinses die neemt een ijsje met een euro in de één .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-1
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000028.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 52
+##META int uttid = 28
+##META int uttstartlineno = 52
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze heeft de [///] (.) ze likt van haar ijsje af.
+##META text parsefile = Asymmetries_c01_u00000000029.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 54
+##META int uttid = 29
+##META int uttstartlineno = 54
+ze heeft ze likt van haar ijsje af .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze hebt (he)m vast.
+##META text parsefile = Asymmetries_c01_u00000000030.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 55
+##META int uttid = 30
+##META int uttstartlineno = 55
+ze hebt hem vast .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = dr [: er] komt een heks aan.
+##META text parsefile = Asymmetries_c01_u00000000031.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 57
+##META int uttid = 31
+##META int uttstartlineno = 57
+er komt een heks aan .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en ze zegt +"/.
+##META text parsefile = Asymmetries_c01_u00000000032.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 58
+##META int uttid = 32
+##META int uttstartlineno = 58
+en ze zegt
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = +" die is voor jou.
+##META text parsefile = Asymmetries_c01_u00000000033.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 59
+##META int uttid = 33
+##META int uttstartlineno = 59
+die is voor jou .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze lacht.
+##META text parsefile = Asymmetries_c01_u00000000034.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 60
+##META int uttid = 34
+##META int uttstartlineno = 60
+ze lacht .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-4
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = +" dankjewel +".
+##META text parsefile = Asymmetries_c01_u00000000035.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 62
+##META int uttid = 35
+##META int uttstartlineno = 62
+dankjewel .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-4
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = goed vertellen wat je ziet &he (.) .
+##META text parsefile = Asymmetries_c01_u00000000036.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 63
+##META int uttid = 36
+##META int uttstartlineno = 63
+goed vertellen wat je ziet .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-4
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = anders weet Sanne niet wat er gebeurt.
+##META text parsefile = Asymmetries_c01_u00000000037.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 64
+##META int uttid = 37
+##META int uttstartlineno = 64
+anders weet Sanne niet wat er gebeurt .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = ze likt aan het ijsje.
+##META text parsefile = Asymmetries_c01_u00000000038.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 66
+##META int uttid = 38
+##META int uttstartlineno = 66
+ze likt aan het ijsje .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = daarna neemt ze weer een euro.
+##META text parsefile = Asymmetries_c01_u00000000039.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 68
+##META int uttid = 39
+##META int uttstartlineno = 68
+daarna neemt ze weer een euro .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en ze geeft één euro.
+##META text parsefile = Asymmetries_c01_u00000000040.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 69
+##META int uttid = 40
+##META int uttstartlineno = 69
+en ze geeft één euro .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Prinses-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en ze neemt (e)r weer een ijsje.
+##META text parsefile = Asymmetries_c01_u00000000041.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 70
+##META int uttid = 41
+##META int uttstartlineno = 70
+en ze neemt er weer een ijsje .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-1
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = &ehm (..) &-eh (.) .
+##META text parsefile = Asymmetries_c01_u00000000042.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 72
+##META int uttid = 42
+##META int uttstartlineno = 72
+.
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-1
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = wie was dat ook alweer?
+##META text parsefile = Asymmetries_c01_u00000000043.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 73
+##META int uttid = 43
+##META int uttstartlineno = 73
+wie was dat ook alweer ?
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-1
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = indiaan.
+##META text parsefile = Asymmetries_c01_u00000000044.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 74
+##META int uttid = 44
+##META int uttstartlineno = 74
+indiaan .
+
+
+##META text SES = 
+##META text age = 
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-1
+##META text group = SAchildren
+##META text language = nld
+##META text months = 
+##META text name = Ellis1
+##META text origutt = ja.
+##META text parsefile = Asymmetries_c01_u00000000045.xml
+##META text role = Investigator
+##META text sex = female
+##META text speaker = INV
+##META int uttendlineno = 75
+##META int uttid = 45
+##META int uttstartlineno = 75
+ja .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-1
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = die pakt een appel met (ee)n ladder.
+##META text parsefile = Asymmetries_c01_u00000000046.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 76
+##META int uttid = 46
+##META int uttstartlineno = 76
+die pakt een appel met een ladder .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-2
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij klimt naar boven.
+##META text parsefile = Asymmetries_c01_u00000000047.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 78
+##META int uttid = 47
+##META int uttstartlineno = 78
+hij klimt naar boven .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij pakt een appel.
+##META text parsefile = Asymmetries_c01_u00000000048.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 80
+##META int uttid = 48
+##META int uttstartlineno = 80
+hij pakt een appel .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-3
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = (e)n hij [///] (.) daar komt de koi(boi) [/] cowboy aan.
+##META text parsefile = Asymmetries_c01_u00000000049.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 81
+##META int uttid = 49
+##META int uttstartlineno = 81
+en daar komt de cowboy aan .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-4
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij haalt de ladder weg.
+##META text parsefile = Asymmetries_c01_u00000000050.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 83
+##META int uttid = 50
+##META int uttstartlineno = 83
+hij haalt de ladder weg .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij neemt (he)m mee.
+##META text parsefile = Asymmetries_c01_u00000000051.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 85
+##META int uttid = 51
+##META int uttstartlineno = 85
+hij neemt hem mee .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-5
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en die ander die blijft er staan.
+##META text parsefile = Asymmetries_c01_u00000000052.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 86
+##META int uttid = 52
+##META int uttstartlineno = 86
+en die ander die blijft er staan .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = hij [/] <hij is> [//] (.) hij [/] hij [/] <hij doet> [//] (.) hij heeft z(ij)n mond open.
+##META text parsefile = Asymmetries_c01_u00000000053.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 89
+##META int uttid = 53
+##META int uttstartlineno = 88
+hij heeft zijn mond open .
+
+
+##META text SES = 
+##META text age = 5;09.
+##META text corpus = Asymmetries
+##META text custom = 
+##META text education = 
+##META text g = Indiaan1-6
+##META text group = SAchildren
+##META text language = nld
+##META int months = 69
+##META text name = CKc01
+##META text origutt = en hij staat op het takje.
+##META text parsefile = Asymmetries_c01_u00000000054.xml
+##META text role = Target_Child
+##META text sex = female
+##META text speaker = CHI
+##META int uttendlineno = 90
+##META int uttid = 54
+##META int uttstartlineno = 90
+en hij staat op het takje .
+
+
