@@ -12,7 +12,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Digital Humanities Lab, Utrecht University',
     author_email='digitalhumanities@uu.nl',
-    url='https://github.com/UUDigitalHumanitieslab/chamd',
+    url='https://github.com/CentreForDigitalHumanities/chamd',
     license='MIT',
     packages=['chamd'],
     zip_safe=True,

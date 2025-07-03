@@ -1,4 +1,4 @@
-[![Python package](https://github.com/UUDigitalHumanitieslab/chamd/actions/workflows/python-package.yml/badge.svg?branch=develop)](https://github.com/UUDigitalHumanitieslab/chamd/actions/workflows/python-package.yml)
+[![Python package](https://github.com/CentreForDigitalHumanities/chamd/actions/workflows/python-package.yml/badge.svg?branch=develop)](https://github.com/CentreForDigitalHumanities/chamd/actions/workflows/python-package.yml)
 [![Python package](https://badge.fury.io/py/chamd.svg)](https://pypi.python.org/pypi/chamd/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8091301.svg)](https://doi.org/10.5281/zenodo.8091301)
 # CHAMD

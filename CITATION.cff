@@ -18,7 +18,7 @@ authors:
     family-names: van Boheemen
     email: j.vanboheemen@uu.nl
     affiliation: Utrecht University
-repository-code: 'https://github.com/UUDigitalHumanitieslab/chamd'
+repository-code: 'https://github.com/CentreForDigitalHumanities/chamd'
 abstract: >-
   Conversion and cleaning of CHILDES CHA files into PaQu
   Plaintext Metadata Format (to convert to Alpino).
