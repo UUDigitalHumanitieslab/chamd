@@ -45,26 +45,26 @@ standard_tiers = {
     "sit": "situation",
     "spa": "speech act",
     "tim": "timing",
-    "trn": "training"
+    "trn": "training",
 }
 
 
 def clean(line):
     result = line.strip()
-    return(result)
+    return result
 
 
 def combine(str1, str2):
     result = str2 if str1 == "" else space.join([str1.rstrip(), str2.lstrip()])
-    return(result)
+    return result
 
 
 def despace(str):
     # remove leading and trailing spaces
     # replace other sequences of spaces by underscore
     result = str.strip()
-    result = re.sub(r' +', r'_', result)
-    return(result)
+    result = re.sub(r" +", r"_", result)
+    return result
 
 
 def get_charencoding(str):
@@ -76,16 +76,20 @@ def get_charencoding(str):
         result = str[1:0]
     else:
         result = None
-    return(result)
+    return result
 
 
 def getcorpus(metadata):
-    speaker = metadata['speaker'] if 'speaker' in metadata else ''
-    if 'id' in metadata and speaker in metadata['id'] and 'corpus' in metadata['id'][speaker]:
-        corpus = metadata['id'][speaker]['corpus']
+    speaker = metadata["speaker"] if "speaker" in metadata else ""
+    if (
+        "id" in metadata
+        and speaker in metadata["id"]
+        and "corpus" in metadata["id"][speaker]
+    ):
+        corpus = metadata["id"][speaker]["corpus"]
     else:
-        corpus = 'Unknown_corpus'
-    return(corpus)
+        corpus = "Unknown_corpus"
+    return corpus
 
 
 def getmonths(age):
@@ -103,11 +107,11 @@ def getmonths(age):
     # print(input('continue?'), file=logfile)
     if lthelist >= 1:
         yearstr = thelist[0]
-        if not re.match('[0-9]+', yearstr):
+        if not re.match("[0-9]+", yearstr):
             errorfound = True
     if lthelist >= 2:
         monthstr = thelist[1]
-        if not re.match('[0-9]{1,2}', monthstr):
+        if not re.match("[0-9]{1,2}", monthstr):
             errorfound = True
     if lthelist < 1 or lthelist > 3:
         errorfound = True
@@ -117,17 +121,22 @@ def getmonths(age):
         year = int(yearstr)
         month = 0 if monthstr == "" else int(monthstr)
         if month < 0 or month > 11:
-            errors.append("Warning: Illegal month value in age(0<=m<=11): {}".format(
-                cleanage))
+            errors.append(
+                "Warning: Illegal month value in age(0<=m<=11): {}".format(cleanage)
+            )
         result = (12 * year) + month
     else:
         result = 0
-        errors.append("Error: uninterpretable age value: {}. No months attribute computed".format(
-            cleanage))
+        errors.append(
+            "Error: uninterpretable age value: {}. No months attribute computed".format(
+                cleanage
+            )
+        )
     if warningneeded:
-        errors.append("Warning: Illegal age syntax for {}. Syntax must be y;m.d".format(
-            cleanage))
-    return(result)
+        errors.append(
+            "Warning: Illegal age syntax for {}. Syntax must be y;m.d".format(cleanage)
+        )
+    return result
 
 
 def getoutpaths(fullname, inpath, outpath):
@@ -136,14 +145,14 @@ def getoutpaths(fullname, inpath, outpath):
     fullinpath = os.path.dirname(fullname)
     reloutpath = os.path.relpath(fullinpath, start=absinpath)
     fulloutpath = os.path.join(absoutpath, reloutpath)
-    return(reloutpath, fulloutpath)
+    return (reloutpath, fulloutpath)
 
 
 def getparsefile(corpus, base, uttid):
     uttidstr = "u{:011d}".format(uttid)
     newbase = underscore.join([corpus, base, uttidstr])
     result = newbase + parseext
-    return(result)
+    return result
 
 
 class MetaValue:
@@ -176,7 +185,6 @@ class MetaTxt(MetaValue):
 
 
 def normalizedate(str):
-    global errors
     try:
         dt = datetime.datetime.strptime(str, dateformat1)
     except ValueError:
@@ -202,7 +210,6 @@ def get_metavalue(el, entry):
 
 
 def get_headermd(metadata):
-    global errors
     for el in sorted(metadata):
         entry = metadata[el]
         value = get_metavalue(el, entry)
@@ -211,7 +218,6 @@ def get_headermd(metadata):
 
 
 def get_uttmd(file_metadata, metadata):
-    global errors
     for el in sorted(metadata):
         entry = metadata[el]
         if el not in file_metadata or entry != file_metadata[el]:
@@ -219,26 +225,24 @@ def get_uttmd(file_metadata, metadata):
             if value is not None:
                 yield value
 
-    curcode = metadata['speaker']
-    if curcode in metadata['participants']:
-        for el in metadata['participants'][curcode]:
-            if el != 'role':
-                yield MetaTxt(el, metadata['participants'][curcode][el])
-    if 'id' in metadata:
-        if curcode in metadata['id']:
-            for el in sorted(metadata['id'][curcode]):
-                entry = metadata['id'][curcode][el]
+    curcode = metadata["speaker"]
+    if curcode in metadata["participants"]:
+        for el in metadata["participants"][curcode]:
+            if el != "role":
+                yield MetaTxt(el, metadata["participants"][curcode][el])
+    if "id" in metadata:
+        if curcode in metadata["id"]:
+            for el in sorted(metadata["id"][curcode]):
+                entry = metadata["id"][curcode][el]
                 value = get_metavalue(el, entry)
                 if value is not None:
                     yield value
                 else:
-                    errors.append('get_uttmd: unknown type for {}={}'.format(
-                        el, entry))
+                    errors.append("get_uttmd: unknown type for {}={}".format(el, entry))
 
 
 class ChatHeadersList:
-    """A list of headers was parsed
-    """
+    """A list of headers was parsed"""
 
     def __init__(self, metadata):
         self.metadata = {}
@@ -247,8 +251,7 @@ class ChatHeadersList:
 
 
 class ChatTier:
-    """Dependent tier containing additional information about a line.
-    """
+    """Dependent tier containing additional information about a line."""
 
     def __init__(self, id, text):
         self.id = id
@@ -256,14 +259,15 @@ class ChatTier:
 
     @property
     def name(self):
-        global standard_tiers
         try:
             return standard_tiers[self.id]
         except KeyError:
             return self.id
 
     def __str__(self):
-        return space.join([metakw, "text", self.name, "=", self.text.replace('\n', ' ')])
+        return space.join(
+            [metakw, "text", self.name, "=", self.text.replace("\n", " ")]
+        )
 
 
 class AppendLine:
@@ -278,10 +282,19 @@ class ChatHeader:
         self.linestartno = linestartno
 
 
-def processline(base, cleanfilename, entrystartno,
-                lineno, theline, file_metadata: Dict[str, str],
-                metadata, uttid, prev_header: bool, infilename, repkeep):
-    global errors
+def processline(
+    base,
+    cleanfilename,
+    entrystartno,
+    lineno,
+    theline,
+    file_metadata: Dict[str, str],
+    metadata,
+    uttid,
+    prev_header: bool,
+    infilename,
+    repkeep,
+):
     startchar = theline[0:1]
     if startchar == mdchar:
         treat_mdline(lineno, theline, metadata, infilename)
@@ -292,28 +305,35 @@ def processline(base, cleanfilename, entrystartno,
             if not file_metadata:
                 file_metadata.update(metadata)
         if startchar == uttchar:
-            metadata['uttid'] = uttid
-            metadata['uttstartlineno'] = entrystartno
-            metadata['uttendlineno'] = lineno
+            metadata["uttid"] = uttid
+            metadata["uttstartlineno"] = entrystartno
+            metadata["uttendlineno"] = lineno
             treatutt(theline, metadata)
             corpus = getcorpus(metadata)
             parsefilename = getparsefile(corpus, base, uttid)
-            metadata['parsefile'] = parsefilename
-            endspk = theline.find(':')
+            metadata["parsefile"] = parsefilename
+            endspk = theline.find(":")
             if endspk < 0:
-                errors.append('error in entry  on line(s) {}-{}: {}'.format(entrystartno,
-                                                                            lineno, theline))
+                errors.append(
+                    "error in entry  on line(s) {}-{}: {}".format(
+                        entrystartno, lineno, theline
+                    )
+                )
             entry = theline[endspk + 2:]
             cleanentry = cleantext(entry, repkeep)
             chat_line = ChatLine(uttid, entry, cleanentry)
             (valid, charcodes) = check_suspect_chars(cleanentry)
             if not valid:
-                errors.append("""
+                errors.append(
+                    """
 {} {} suspect character
 input=<{}>
 output=<{}>
 charcodes={}
-""".format(cleanfilename, lineno, theline[:-1], cleanentry, charcodes))
+""".format(
+                        cleanfilename, lineno, theline[:-1], cleanentry, charcodes
+                    )
+                )
 
             updateCharMap(cleanentry, charmap)
             # remove suspect characters in the output
@@ -327,7 +347,7 @@ charcodes={}
             chat_line.text = cleanentry
             yield chat_line
         elif startchar == dependent_tier_char:
-            colon = theline.find(':')
+            colon = theline.find(":")
             yield ChatTier(theline[1:colon], theline[colon + 1:].lstrip())
         else:
             yield AppendLine(theline)
@@ -339,11 +359,10 @@ def setatt(entrylist, i):
         result = clean(entrylist[i])
     else:
         result = ""
-    return(result)
+    return result
 
 
 def treat_mdline(lineno, headerline, metadata, infilename):
-    global counter, errors
     headernameend = headerline.find(headerlineendsym)
     if headernameend < 0:
         cleanheaderline = clean(headerline).lower()
@@ -353,35 +372,38 @@ def treat_mdline(lineno, headerline, metadata, infilename):
             pass
         elif cleanheaderline == "@end":
             pass
-        elif cleanheaderline == '@blank':
+        elif cleanheaderline == "@blank":
             pass
         else:
-            errors.append("Warning: {}: unknown header {} encountered in line {}".format(
-                infilename, headerline, lineno))
+            errors.append(
+                "Warning: {}: unknown header {} encountered in line {}".format(
+                    infilename, headerline, lineno
+                )
+            )
 
     else:
         headername = headerline[1:headernameend]
         entry = headerline[headernameend + 1:]
         cleanentry = clean(entry)
-        entrylist = cleanentry.split(',')
+        entrylist = cleanentry.split(",")
         cleanheadername = clean(headername)
         cleanheadernamebase = clean(cleanheadername[:-3])
         speaker_id = cleanheadername[-3:]
         cleanheadername = cleanheadername.lower()
         cleanheadernamebase = clean(cleanheadername[:-3])
-        if cleanheadername == 'font':
+        if cleanheadername == "font":
             pass
-        elif cleanheadername == 'languages':
-            metadata['languages'] = entrylist
-        elif cleanheadername == 'colorwords':
-            metadata['colorwords'] = entrylist
-        elif cleanheadername == 'options':
+        elif cleanheadername == "languages":
+            metadata["languages"] = entrylist
+        elif cleanheadername == "colorwords":
+            metadata["colorwords"] = entrylist
+        elif cleanheadername == "options":
             pass
-        elif cleanheadername == 'participants':
+        elif cleanheadername == "participants":
             treatparticipants(entrylist, metadata, infilename)
-        elif cleanheadername == 'id':
+        elif cleanheadername == "id":
             treatid(entry, metadata, infilename)
-        elif cleanheadername == 'date':
+        elif cleanheadername == "date":
             metadata[cleanheadername] = normalizedate(cleanentry)
         elif cleanheadername in simpleheadernames:
             metadata[cleanheadername] = cleanentry
@@ -393,34 +415,36 @@ def treat_mdline(lineno, headerline, metadata, infilename):
             counter[cleanheadername] += 1
             metadata[cleanheadername] = counter[cleanheadername]
         elif cleanheadernamebase in participantspecificheaders:
-            if 'id' not in metadata:
-                metadata['id'] = {}
-            if speaker_id not in metadata['id']:
-                metadata['id'][speaker_id] = {}
-            if cleanheadernamebase == 'birth of':
+            if "id" not in metadata:
+                metadata["id"] = {}
+            if speaker_id not in metadata["id"]:
+                metadata["id"][speaker_id] = {}
+            if cleanheadernamebase == "birth of":
                 thedate = normalizedate(cleanentry)
-                metadata['id'][speaker_id][cleanheadernamebase] = thedate
-            elif cleanheadernamebase == 'age of':
+                metadata["id"][speaker_id][cleanheadernamebase] = thedate
+            elif cleanheadernamebase == "age of":
                 # print('<{}>'.format(cleanentry), file=logfile)
                 # print(input('Continue?'), file=logfile)
-                metadata['id'][speaker_id]['age'] = cleanentry
-                if cleanentry != '':
-                    metadata['childage'] = cleanentry
+                metadata["id"][speaker_id]["age"] = cleanentry
+                if cleanentry != "":
+                    metadata["childage"] = cleanentry
                 months = getmonths(cleanentry)
                 if months != 0:
-                    metadata['id'][speaker_id]['months'] = months
-                    if months != '':
-                        metadata['childmonths'] = months
+                    metadata["id"][speaker_id]["months"] = months
+                    if months != "":
+                        metadata["childmonths"] = months
             else:
-                metadata['id'][speaker_id][cleanheadernamebase] = cleanentry
+                metadata["id"][speaker_id][cleanheadernamebase] = cleanentry
 
         else:
-            errors.append('Warning: {}: unknown metadata element encountered: {}'.format(
-                infilename, cleanheadername))
+            errors.append(
+                "Warning: {}: unknown metadata element encountered: {}".format(
+                    infilename, cleanheadername
+                )
+            )
 
 
 def treatparticipants(entrylist, metadata, infilename):
-    global errors
     for el in entrylist:
         ellist = el.split()
         code = ""
@@ -435,8 +459,11 @@ def treatparticipants(entrylist, metadata, infilename):
             name = ""
             role = ellist[1]
         else:
-            errors.append("{}: error in participants: too few elements {}".format(
-                infilename, entrylist))
+            errors.append(
+                "{}: error in participants: too few elements {}".format(
+                    infilename, entrylist
+                )
+            )
         if code != "":
             if "participants" not in metadata:
                 metadata["participants"] = {}
@@ -449,18 +476,20 @@ def treatparticipants(entrylist, metadata, infilename):
 
 
 def ischild(str):
-    result = 'child' in str.lower()
+    result = "child" in str.lower()
     return result
 
 
 def treatid(entry, metadata, infilename):
-    global errors
     cleanentry = clean(entry)
     entrylist = cleanentry.split(idsep)
     lentrylist = len(entrylist)
     if lentrylist != 11:
-        errors.append("{}: Warning in id: {} elements instead of 11 in {}".format(
-            infilename, lentrylist, entry))
+        errors.append(
+            "{}: Warning in id: {} elements instead of 11 in {}".format(
+                infilename, lentrylist, entry
+            )
+        )
     language = setatt(entrylist, 0)
     corpus = setatt(entrylist, 1)
     code = setatt(entrylist, 2)
@@ -469,14 +498,18 @@ def treatid(entry, metadata, infilename):
     group = setatt(entrylist, 5)
     SES = setatt(entrylist, 6)
     role = setatt(entrylist, 7)
-    if role == '':
-        if code in metadata["participants"] and "role" in metadata["participants"][code]:
+    if role == "":
+        if (
+            code in metadata["participants"]
+            and "role" in metadata["participants"][code]
+        ):
             role = metadata["participants"][code]["role"]
     education = setatt(entrylist, 8)
     custom = setatt(entrylist, 9)
     if code == "":
-        errors.append("{}: error in id: no code element in {}".format(
-            infilename, entry))
+        errors.append(
+            "{}: error in id: no code element in {}".format(infilename, entry)
+        )
     else:
         if "id" not in metadata:
             metadata["id"] = {}
@@ -488,14 +521,14 @@ def treatid(entry, metadata, infilename):
             metadata["id"][code]["corpus"] = corpus
         metadata["id"][code]["age"] = age
         if ischild(role):
-            metadata['childage'] = age
+            metadata["childage"] = age
         if age != "":
             months = getmonths(age)
         else:
-            months = ''
+            months = ""
         metadata["id"][code]["months"] = months
-        if months != '':
-            metadata['childmonths'] = months
+        if months != "":
+            metadata["childmonths"] = months
         metadata["id"][code]["sex"] = sex
         metadata["id"][code]["group"] = group
         metadata["id"][code]["SES"] = SES
@@ -505,10 +538,10 @@ def treatid(entry, metadata, infilename):
 
 
 def treatutt(line, metadata):
-    endspk = line.find(':')
+    endspk = line.find(":")
     code = line[1:endspk]
     metadata["speaker"] = code
-    metadata['origutt'] = line[endspk + 2:]
+    metadata["origutt"] = line[endspk + 2:]
 
 
 def updateCharMap(str, charmap):
@@ -519,42 +552,68 @@ def updateCharMap(str, charmap):
         else:
             charmap[curchar] = 1
 
+
 # constants
 
 
 mdchar = "@"
 uttchar = "*"
 dependent_tier_char = "%"
-headerlineendsym = ':'
-idsep = '|'
-metakw = '##META'
-space = ' '
+headerlineendsym = ":"
+idsep = "|"
+metakw = "##META"
+space = " "
 parseext = ".xml"
-underscore = '_'
+underscore = "_"
 dateformat1 = "%d-%b-%Y"
 dateformat2 = "%d-%m-%Y"
 
 
-simpleheadernames = ['pid', "transcriber", "coder", "date", "location",
-                     "situation", 'number', 'interaction type', "activities",
-                     'comment', 'bck', 'warning', 'transcription',
-                     'time start', 'time duration', 'tape location', 'room layout',
-                     'recording quality', 'number', 'media', 'session', 'g', 'types']
-simpleintheadernames = ['page']
-simplecounterheaders = ['new episode']
-skipheadernames = ['exceptions']
-participantspecificheaders = ['birth of', 'birthplace of', 'l1 of', 'age of']
-createdmdnames = ['charencoding', 'parsefile', 'speaker', 'origutt']
-seps = r'[-.,/;:_!~\\]'
-digits = r'[0-9]+'
-digit2 = r'[0-9]{1,2}'
-optdays = r'(' + digits + r')?'
-optsepdays = r'(\.' + optdays + r')?'
-optmonths = '(' + digit2 + optsepdays + ')?'
-optsepmonths = '(;' + optmonths + ')?'
-agere = '^' + digits + optsepmonths + '$'
-allheaders = simpleheadernames + simpleintheadernames + \
-    simplecounterheaders + createdmdnames + participantspecificheaders
+simpleheadernames = [
+    "pid",
+    "transcriber",
+    "coder",
+    "date",
+    "location",
+    "situation",
+    "number",
+    "interaction type",
+    "activities",
+    "comment",
+    "bck",
+    "warning",
+    "transcription",
+    "time start",
+    "time duration",
+    "tape location",
+    "room layout",
+    "recording quality",
+    "number",
+    "media",
+    "session",
+    "g",
+    "types",
+]
+simpleintheadernames = ["page"]
+simplecounterheaders = ["new episode"]
+skipheadernames = ["exceptions"]
+participantspecificheaders = ["birth of", "birthplace of", "l1 of", "age of"]
+createdmdnames = ["charencoding", "parsefile", "speaker", "origutt"]
+seps = r"[-.,/;:_!~\\]"
+digits = r"[0-9]+"
+digit2 = r"[0-9]{1,2}"
+optdays = r"(" + digits + r")?"
+optsepdays = r"(\." + optdays + r")?"
+optmonths = "(" + digit2 + optsepdays + ")?"
+optsepmonths = "(;" + optmonths + ")?"
+agere = "^" + digits + optsepmonths + "$"
+allheaders = (
+    simpleheadernames
+    + simpleintheadernames
+    + simplecounterheaders
+    + createdmdnames
+    + participantspecificheaders
+)
 
 # global variables
 logfile = None
@@ -566,19 +625,21 @@ class ChatLine:
     def __init__(self, uttid: str, original: str, cleaned: str):
         self.metadata = cast(Dict[str, MetaValue], {})
         self.tiers = cast(Dict[str, ChatTier], {})
-        self.text = ''
+        self.text = ""
         self.uttid = uttid
         self.original = original
         self.cleaned = cleaned
 
 
 class ChatFile:
-    def __init__(self,
-                 charmap: Dict[str, str] = None,
-                 metadata: Dict[str, MetaValue] = None,
-                 lines: List[ChatLine] = None,
-                 header_metadata: Dict = None,
-                 headers: List[ChatHeader] = None):
+    def __init__(
+        self,
+        charmap: Dict[str, str] = None,
+        metadata: Dict[str, MetaValue] = None,
+        lines: List[ChatLine] = None,
+        header_metadata: Dict = None,
+        headers: List[ChatHeader] = None,
+    ):
         self.charmap = charmap or {}
         self.metadata = metadata or {}
         self.lines = lines or []
@@ -588,11 +649,10 @@ class ChatFile:
 
 class ChatReader:
     def __init__(self):
-        global counter, cleanfile
         self.repkeep = False
 
     def read_file(self, filename: str) -> ChatFile:
-        with open(filename, encoding='utf-8') as file:
+        with open(filename, encoding="utf-8") as file:
             return self.read_string(file.read(), filename)
 
     def read_string(self, content: str, filename: str) -> ChatFile:
@@ -608,9 +668,9 @@ class ChatReader:
         baseext = os.path.basename(filename)
         (base, ext) = os.path.splitext(baseext)
 
-        metadata['session'] = base
-        metadata['childage'] = ''
-        metadata['childmonths'] = ''
+        metadata["session"] = base
+        metadata["childage"] = ""
+        metadata["childmonths"] = ""
 
         chat_file = ChatFile()
         chat_file.charmap = charmap
@@ -630,18 +690,20 @@ class ChatReader:
         current_tiers = cast(List[Optional[ChatTier]], [])
 
         def process_line_steps(linetoprocess: str):
-            nonlocal uttid, prev_header, current_line, current_tiers, file_metadata, metadata
-            for step in processline(base,
-                                    filename,
-                                    entrystartno,
-                                    prevlineno,
-                                    linetoprocess,
-                                    file_metadata,
-                                    metadata,
-                                    uttid,
-                                    prev_header,
-                                    filename,
-                                    self.repkeep):
+            nonlocal uttid, prev_header, current_line, current_tiers
+            for step in processline(
+                base,
+                filename,
+                entrystartno,
+                prevlineno,
+                linetoprocess,
+                file_metadata,
+                metadata,
+                uttid,
+                prev_header,
+                filename,
+                self.repkeep,
+            ):
                 if type(step) is ChatLine:
                     if current_line is not None:
                         known_line = cast(ChatLine, current_line)
@@ -657,11 +719,9 @@ class ChatReader:
                 elif type(step) is AppendLine:
                     if current_tiers != []:
                         for ct in current_tiers:
-                            cast(ChatTier, ct).text += '\n' + \
-                                step.text.lstrip()
+                            cast(ChatTier, ct).text += "\n" + step.text.lstrip()
                     else:
-                        cast(ChatLine, current_line).text += '\n' + \
-                            step.text.lstrip()
+                        cast(ChatLine, current_line).text += "\n" + step.text.lstrip()
                 elif type(step) is ChatHeadersList:
                     if current_line is None:
                         for name, value in step.metadata.items():
@@ -676,8 +736,9 @@ class ChatReader:
                         chat_file.header_metadata.update(step.headerdata)
                         # Keep a record of the raw header for the purpose of reconstrucing CHAT file
                         # Hacky, should also contain the parsed header data
-                        chat_file.headers.append(ChatHeader(
-                            line=step.line, linestartno=step.linestartno))
+                        chat_file.headers.append(
+                            ChatHeader(line=step.line, linestartno=step.linestartno)
+                        )
                 else:
                     prev_header = False
 
@@ -687,11 +748,11 @@ class ChatReader:
                 lineno += 1
                 try:
                     if line.lstrip()[0] == dependent_tier_char:
-                        line = re.sub(r'^(\s+)?%', '%', line)
+                        line = re.sub(r"^(\s+)?%", "%", line)
                 except IndexError:
                     pass
                 startchar = line[0:1]
-                if startchar in ['\t', ' ']:
+                if startchar in ["\t", " "]:
                     linetoprocess = combine(linetoprocess, line)
                     contlinecount += 1
                 elif startchar in [mdchar, uttchar, dependent_tier_char, space]:
